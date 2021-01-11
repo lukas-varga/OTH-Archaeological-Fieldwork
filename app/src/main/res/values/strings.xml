@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">archeology</string>
+    <string name="app_name">Argeo</string>
+
+
+
+    <string name="menu_addSite">Add Site</string>
+    <string name="menu_showMap">Show Map</string>
+    <string name="menu_logOut">Logout</string>
+    <string name="menu_cancelSite">Cancel</string>
+    <string name="menu_deleteSite">Delete</string>
+    <string name="menu_saveSite">Save</string>
+    <string name="menu_saveMap">Save</string>
+    <string name="toast_missingTitle">Please enter a title</string>
+    <string name="toast_missingAuthItems">Please provide email + password</string>
+    <string name="toast_signUpFailed">Sign Up Failed</string>
+    <string name="toast_logInFailed">"Log In Failed"</string>
+    <string name="select_site_image">Select site image</string>
+    <string name="title_splash">Argeo</string>
+    <string name="title_activity_map">Map</string>
+    <string name="title_activity_site_list">Argeo</string>
+    <string name="title_activity_site">Site</string>
+    <string name="title_activity_location">Site</string>
+    <string name="title_activity_login">Signup/Login to Argeo</string>
+    <string name="imageView_splash">Argeo Logo</string>
+    <string name="site_title_placeholder">Title</string>
+    <string name="site_description_placeholder">Description</string>
+    <string name="site_image_placeholder">Image</string>
+    <string name="button_addSite">Add Site</string>
+    <string name="button_saveSite">Save Site</string>
+    <string name="button_addImage">Add Site Image</string>
+    <string name="button_changeImage">Change Site Image</string>
+    <string name="button_location">Set Location</string>
+    <string name="button_location_change">Change Location</string>
+    <string name="button_signUp">Sign Up</string>
+    <string name="button_logIn">Log In</string>
+    <string name="label_splash">by Lukas Varga</string>
+    <string name="label_siteTitle">Site Title</string>
+    <string name="label_description">Description</string>
+    <string name="label_lat">Lat:</string>
+    <string name="label_lng">Lng:</string>
+    <string name="label_lat_map">Lat:</string>
+    <string name="label_lng_map">Lng:</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
 </resources>

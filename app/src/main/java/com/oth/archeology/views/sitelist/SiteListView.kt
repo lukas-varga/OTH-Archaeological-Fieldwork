@@ -56,4 +56,9 @@ class SiteListView  : BaseView(), SiteListener {
         recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        presenter.doLogout()
+    }
 }

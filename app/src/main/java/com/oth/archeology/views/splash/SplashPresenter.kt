@@ -7,7 +7,7 @@ import com.oth.archeology.views.VIEW
 
 class SplashPresenter(view: BaseView) : BasePresenter(view) {
 
-    val LOADING_DUR: Long = 3_000
+    val LOADING_DUR: Long = 2_000
 
     fun loading(){
         view?.showProgress()

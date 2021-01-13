@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.oth.archeology.R
 import com.oth.archeology.views.BaseView
+import com.oth.archeology.views.VIEW
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 
@@ -15,6 +16,7 @@ class LoginView : BaseView() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         init(toolbar, false)
+
         toolbar.setTitle(R.string.title_activity_login)
 
         presenter = initPresenter(LoginPresenter(this)) as LoginPresenter
@@ -51,5 +53,9 @@ class LoginView : BaseView() {
 
     override fun hideProgress() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun onBackPressed() {
+        navigateTo(VIEW.SPLASH)
     }
 }

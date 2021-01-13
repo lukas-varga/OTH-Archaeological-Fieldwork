@@ -20,19 +20,16 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doLogin(email: String, password: String){
-        view?.toast("login")
         view?.showProgress()
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
                 if (fireStore != null) {
                     fireStore!!.fetchSites {
-                        view?.toast("firestore")
                         view?.hideProgress()
                         view?.navigateTo(VIEW.LIST)
                     }
                 }
                 else{
-                    view?.toast("notFire")
                     view?.hideProgress()
                     view?.navigateTo(VIEW.LIST)
                 }

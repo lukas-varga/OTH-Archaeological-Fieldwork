@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import com.oth.archeology.R
 import com.oth.archeology.views.BaseView
+import com.oth.archeology.views.VIEW
 import kotlinx.android.synthetic.main.activity_splash.*
+import kotlin.system.exitProcess
 
 class SplashView : BaseView (){
 
@@ -13,9 +15,10 @@ class SplashView : BaseView (){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
         init(toolbar,false)
+
         toolbar.title = getString(R.string.title_splash)
+        toolbar.visibility = View.GONE
 
         presenter = initPresenter(SplashPresenter(this)) as SplashPresenter
 
@@ -30,5 +33,10 @@ class SplashView : BaseView (){
 
     override fun hideProgress() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        exitProcess(-1)
     }
 }

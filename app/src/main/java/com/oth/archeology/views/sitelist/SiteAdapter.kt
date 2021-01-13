@@ -1,25 +1,25 @@
-package com.oth.archeology.views.siteList
+package com.oth.archeology.views.sitelist
 
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.oth.archeology.R
+import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.models.SiteModel
 import kotlinx.android.synthetic.main.card_site.view.*
 
 
 interface SiteListener {
-    fun onPlacemarkClick(placemark: SiteModel)
+    fun onSiteClick(placemark: SiteModel)
 }
 
-class PlacemarkAdapter constructor(
+class SiteAdapter constructor(
     private var placemarks: List<SiteModel>,
     private val listener: SiteListener
-) : RecyclerView.Adapter<PlacemarkAdapter.MainHolder>() {
+) : RecyclerView.Adapter<SiteAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(
@@ -31,7 +31,6 @@ class PlacemarkAdapter constructor(
         )
     }
 
-
     //binding data to cards
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val placemark = placemarks[holder.adapterPosition]
@@ -42,12 +41,12 @@ class PlacemarkAdapter constructor(
 
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //implementation of binding
-        fun bind(placemark: SiteModel, listener: SiteListener) {
-            itemView.siteTitle.text = placemark.title
-            itemView.description.text = placemark.description
-//            itemView.placemarkImage.setImageBitmap(readImageFromPath(itemView.context,placemark.image))
-            Glide.with(itemView.context).load(placemark.image).into(itemView.siteImage)
-            itemView.setOnClickListener{listener.onPlacemarkClick(placemark)}
+        fun bind(site: SiteModel, listener: SiteListener) {
+            itemView.siteTitle.text = site.title
+            itemView.description.text = site.description
+            itemView.siteImage.setImageBitmap(readImageFromPath(itemView.context,site.image))
+            Glide.with(itemView.context).load(site.image).into(itemView.siteImage)
+            itemView.setOnClickListener{listener.onSiteClick(site)}
         }
     }
 }

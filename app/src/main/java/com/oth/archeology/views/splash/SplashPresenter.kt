@@ -1,5 +1,6 @@
 package com.oth.archeology.views.splash
 
+import android.os.Handler
 import com.oth.archeology.views.BasePresenter
 import com.oth.archeology.views.BaseView
 import com.oth.archeology.views.VIEW
@@ -10,8 +11,9 @@ class SplashPresenter(view: BaseView) : BasePresenter(view) {
 
     fun loading(){
         view?.showProgress()
-        Thread.sleep(LOADING_DUR)
-        view?.hideProgress()
-        view?.navigateTo(VIEW.LOGIN)
+        Handler().postDelayed({
+            view?.hideProgress()
+            view?.navigateTo(VIEW.LOGIN)
+        }, LOADING_DUR)
     }
 }

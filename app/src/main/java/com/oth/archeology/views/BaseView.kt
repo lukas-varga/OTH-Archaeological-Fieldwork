@@ -4,8 +4,14 @@ import android.content.Intent
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.auth.FirebaseAuth
+import com.oth.archeology.models.Location
+import com.oth.archeology.models.SiteModel
+import com.oth.archeology.views.location.EditLocationView
 import com.oth.archeology.views.login.LoginView
-import com.oth.archeology.views.siteList.SiteListView
+import com.oth.archeology.views.map.SiteMapView
+import com.oth.archeology.views.site.SiteView
+import com.oth.archeology.views.sitelist.SiteListView
 import com.oth.archeology.views.splash.SplashView
 import org.jetbrains.anko.AnkoLogger
 
@@ -21,17 +27,14 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     var basePresenter: BasePresenter? = null
 
     fun navigateTo(view: VIEW, code: Int = 0, key: String = "", value: Parcelable? = null){
-//        var intent = Intent(this, SiteListViewL::class.java)
+        var intent = Intent(this, SiteListView::class.java)
         when(view){
             VIEW.SPLASH -> intent = Intent(this,SplashView::class.java)
             VIEW.LOGIN -> intent = Intent(this,LoginView::class.java)
             VIEW.LIST -> intent = Intent(this,SiteListView::class.java)
-
-//            VIEW.LOCATION -> intent = Intent(this,EditLocationView::class.java)
-//            VIEW.PLACEMARK -> intent = Intent(this,PlacemarkView::class.java)
-//            VIEW.MAPS -> intent = Intent(this,PlacemarkMapView::class.java)
-
-
+            VIEW.SITE -> intent = Intent(this,SiteView::class.java)
+            VIEW.LOCATION -> intent = Intent(this, EditLocationView::class.java)
+            VIEW.MAPS -> intent = Intent(this, SiteMapView::class.java)
         }
         if(key != ""){
             intent.putExtra(key,value)
@@ -46,13 +49,13 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
 
 
     fun init(toolbar: Toolbar, upEnabled: Boolean) {
-//        toolbar.title = title
-//        setSupportActionBar(toolbar)
-//        supportActionBar?.setDisplayHomeAsUpEnabled(upEnabled)
-//        var user = FirebaseAuth.getInstance().currentUser
-//        if (user != null){
-//            toolbar.title = "${title}: ${user.email}"
-//        }
+        toolbar.title = title
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(upEnabled)
+        var user = FirebaseAuth.getInstance().currentUser
+        if (user != null){
+            toolbar.title = "${title}: ${user.email}"
+        }
     }
 
     override fun onDestroy() {
@@ -71,9 +74,9 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-//    open fun showPlacemark(placemark: PlacemarkModel) {}
-//    open fun showPlacemarks(placemarks: List<PlacemarkModel>) {}
-//    open fun showLocation(location: Location) {}
+    open fun showSite(placemark: SiteModel) {}
+    open fun showSites(placemarks: List<SiteModel>) {}
+    open fun showLocation(location: Location) {}
     open fun showProgress() {}
     open fun hideProgress() {}
 }

@@ -14,9 +14,14 @@ class SplashView : BaseView (){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        //without init()
+        init(toolbar,false)
+        toolbar.title = getString(R.string.title_splash)
 
         presenter = initPresenter(SplashPresenter(this)) as SplashPresenter
+
+        progressBar.visibility = View.GONE
+
+        presenter.loading()
     }
 
     override fun showProgress() {

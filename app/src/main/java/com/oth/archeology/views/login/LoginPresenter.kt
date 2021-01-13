@@ -1,6 +1,5 @@
 package com.oth.archeology.views.login
 
-
 import com.google.firebase.auth.FirebaseAuth
 import com.oth.archeology.R
 import com.oth.archeology.models.firebase.SiteFireStore
@@ -21,16 +20,19 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doLogin(email: String, password: String){
+        view?.toast("login")
         view?.showProgress()
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
                 if (fireStore != null) {
-                    fireStore!!.fetchPlacemarks {
+                    fireStore!!.fetchSites {
+                        view?.toast("firestore")
                         view?.hideProgress()
                         view?.navigateTo(VIEW.LIST)
                     }
                 }
                 else{
+                    view?.toast("notFire")
                     view?.hideProgress()
                     view?.navigateTo(VIEW.LIST)
                 }
@@ -47,7 +49,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
                 if (fireStore != null) {
-                    fireStore!!.fetchPlacemarks {
+                    fireStore!!.fetchSites {
                         view?.hideProgress()
                         view?.navigateTo(VIEW.LIST)
                     }

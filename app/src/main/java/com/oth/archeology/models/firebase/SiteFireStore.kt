@@ -1,6 +1,5 @@
 package com.oth.archeology.models.firebase
 
-
 import android.content.Context
 import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
@@ -15,62 +14,62 @@ import java.io.File
 
 class SiteFireStore(val context: Context) : SiteStore {
 
-    val placemarks = ArrayList<SiteModel>()
+    val sites = ArrayList<SiteModel>()
     lateinit var userId: String
     lateinit var db: DatabaseReference
     lateinit var st: StorageReference
 
     override fun findAll(): List<SiteModel> {
-        return placemarks
+        return sites
     }
 
     override fun findById(id: Long): SiteModel? {
-        val foundPlacemark: SiteModel? = placemarks.find { p -> p.id == id }
-        return foundPlacemark
+        val foundSite: SiteModel? = sites.find { p -> p.id == id }
+        return foundSite
     }
 
-    override fun create(placemark: SiteModel) {
-        val key = db.child("users").child(userId).child("placemarks").push().key
+    override fun create(site: SiteModel) {
+        val key = db.child("users").child(userId).child("sites").push().key
         key?.let {
-            placemark.fbId = key
-            placemarks.add(placemark)
-            db.child("users").child(userId).child("placemarks").child(key).setValue(placemark)
-            updateImage(placemark)
+            site.fbId = key
+            sites.add(site)
+            db.child("users").child(userId).child("sites").child(key).setValue(site)
+            updateImage(site)
         }
     }
 
-    override fun update(placemark: SiteModel) {
-        var foundPlacemark: SiteModel? = placemarks.find { p -> p.fbId ==  placemark.fbId }
-        if (foundPlacemark != null){
-            foundPlacemark.title = placemark.title
-            foundPlacemark.description = placemark.description
-            foundPlacemark.image = placemark.image
-            foundPlacemark.location = placemark.location
+    override fun update(site: SiteModel) {
+        var foundSite: SiteModel? = sites.find { p -> p.fbId == site.fbId }
+        if (foundSite != null) {
+            foundSite.title = site.title
+            foundSite.description = site.description
+            foundSite.image = site.image
+            foundSite.location = site.location
         }
 
-        db.child("users").child(userId).child("placemarks").child(placemark.fbId).setValue(placemark)
-        if ((placemark.image.length) > 0 && (placemark.image[0] != 'h')) {
-            updateImage(placemark)
+        db.child("users").child(userId).child("sites").child(site.fbId).setValue(site)
+        if ((site.image.length) > 0 && (site.image[0] != 'h')) {
+            updateImage(site)
         }
     }
 
-    override fun delete(placemark: SiteModel) {
-        db.child("users").child(userId).child("placemarks").child(placemark.fbId).removeValue()
-        placemarks.remove(placemark)
+    override fun delete(site: SiteModel) {
+        db.child("users").child(userId).child("sites").child(site.fbId).removeValue()
+        sites.remove(site)
     }
 
     override fun clear() {
-        placemarks.clear()
+        sites.clear()
     }
 
-    fun updateImage(placemark: SiteModel) {
-        if (placemark.image != "") {
-            val fileName = File(placemark.image)
+    fun updateImage(site: SiteModel) {
+        if (site.image != "") {
+            val fileName = File(site.image)
             val imageName = fileName.getName()
 
             var imageRef = st.child(userId + '/' + imageName)
             val baos = ByteArrayOutputStream()
-            val bitmap = readImageFromPath(context, placemark.image)
+            val bitmap = readImageFromPath(context, site.image)
 
             bitmap?.let {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -80,27 +79,30 @@ class SiteFireStore(val context: Context) : SiteStore {
                     println(it.message)
                 }.addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
-                        placemark.image = it.toString()
-                        db.child("users").child(userId).child("placemarks").child(placemark.fbId).setValue(placemark)
+                        site.image = it.toString()
+                        db.child("users").child(userId).child("sites").child(site.fbId)
+                            .setValue(site)
                     }
                 }
             }
         }
     }
 
-    fun fetchPlacemarks(placemarksReady: () -> Unit) {
+    fun fetchSites(sitesReady: () -> Unit) {
         val valueEventListener = object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
             }
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot!!.children.mapNotNullTo(placemarks) { it.getValue<SiteModel>(SiteModel::class.java) }
-                placemarksReady()
+                dataSnapshot!!.children.mapNotNullTo(sites) { it.getValue<SiteModel>(SiteModel::class.java) }
+                sitesReady()
             }
         }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
         st = FirebaseStorage.getInstance().reference
-        placemarks.clear()
-        db.child("users").child(userId).child("placemarks").addListenerForSingleValueEvent(valueEventListener)
+        sites.clear()
+        db.child("users").child(userId).child("sites")
+            .addListenerForSingleValueEvent(valueEventListener)
     }
 }

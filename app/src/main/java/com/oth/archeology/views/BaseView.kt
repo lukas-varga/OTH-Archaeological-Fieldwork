@@ -2,6 +2,7 @@ package com.oth.archeology.views
 
 import android.content.Intent
 import android.os.Parcelable
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
@@ -10,6 +11,7 @@ import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.location.EditLocationView
 import com.oth.archeology.views.login.LoginView
 import com.oth.archeology.views.map.SiteMapView
+import com.oth.archeology.views.settings.SettingsView
 import com.oth.archeology.views.site.SiteView
 import com.oth.archeology.views.sitelist.SiteListView
 import com.oth.archeology.views.splash.SplashView
@@ -19,7 +21,7 @@ val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
 
 enum class VIEW{
-    LOCATION, SITE, MAPS, LIST, LOGIN, SPLASH
+    LOCATION, SITE, MAPS, LIST, LOGIN, SPLASH, SETTINGS
 }
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
@@ -35,6 +37,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.SITE -> intent = Intent(this,SiteView::class.java)
             VIEW.LOCATION -> intent = Intent(this, EditLocationView::class.java)
             VIEW.MAPS -> intent = Intent(this, SiteMapView::class.java)
+            VIEW.SETTINGS -> intent = Intent(this, SettingsView::class.java)
         }
         if(key != ""){
             intent.putExtra(key,value)
@@ -62,6 +65,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         basePresenter?.onDestroy()
         super.onDestroy()
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

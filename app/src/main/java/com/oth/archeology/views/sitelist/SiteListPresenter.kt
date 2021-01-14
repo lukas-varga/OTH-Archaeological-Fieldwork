@@ -36,4 +36,8 @@ class SiteListPresenter  (view: BaseView) : BasePresenter(view){
         app.sites.clear()
         view?.navigateTo(VIEW.LOGIN)
     }
+
+    fun doSettings(){
+        view?.navigateTo(VIEW.SETTINGS)
+    }
 }

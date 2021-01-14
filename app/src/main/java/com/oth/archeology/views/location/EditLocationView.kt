@@ -10,6 +10,7 @@ import com.oth.archeology.models.Location
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_edit_map.*
 
+
 class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener  {
 
     lateinit var presenter: EditLocationPresenter
@@ -18,10 +19,7 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_map)
-//        TODO
-//        super.init(toolbar,true)
-        super.init(toolbar, false)
-//        toolbar.setNavigationOnClickListener { view -> showSites() }
+        super.init(toolbar, true)
 
         presenter = initPresenter(EditLocationPresenter(this)) as EditLocationPresenter
 
@@ -34,6 +32,7 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
         }
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_edit_map, menu)
         return super.onCreateOptionsMenu(menu)
@@ -44,13 +43,13 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
             R.id.item_map -> {
                 presenter.doSaveLocation()
             }
-//            R.id.home ->{
-//                onBackPressed()
-//                toast("test")
-//                return true
-//            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     override fun showLocation(location: Location) {
@@ -73,17 +72,13 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
     override fun onMarkerDragEnd(marker: Marker) {
         countLocation(marker)
         presenter.doUpdateLocation(
-            Location(
-                marker.position.latitude,
-                marker.position.longitude,
-                map.cameraPosition.zoom
-            )
+                Location(
+                        marker.position.latitude,
+                        marker.position.longitude,
+                        map.cameraPosition.zoom
+                )
         )
     }
-
-//    override fun onBackPressed() {
-//        presenter.doSaveLocation()
-//    }
 
     override fun onMarkerClick(marker: Marker): Boolean {
         presenter.doUpdateMarker(marker)

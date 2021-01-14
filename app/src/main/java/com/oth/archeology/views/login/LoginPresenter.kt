@@ -48,6 +48,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 if (fireStore != null) {
                     fireStore!!.fetchSites {
                         view?.hideProgress()
+                        doPopulateSites()
                         view?.navigateTo(VIEW.LIST)
                     }
                 }
@@ -61,5 +62,9 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 view?.toast(R.string.toast_signUpFailed.toString() + ": ${task.exception?.message}")
             }
         }
+    }
+
+    fun doPopulateSites(){
+//        TODO
     }
 }

@@ -9,6 +9,7 @@ import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site_list.*
+import kotlinx.android.synthetic.main.card_site.*
 
 class SiteListView  : BaseView(), SiteListener {
 
@@ -30,6 +31,7 @@ class SiteListView  : BaseView(), SiteListener {
         recyclerView.adapter = SiteAdapter(sites, this)
         recyclerView.adapter?.notifyDataSetChanged()
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_site_list, menu)

@@ -8,12 +8,15 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity
-data class SiteModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
-                          var fbId: String = "",
-                          var title: String = "",
-                          var description: String = "",
-                          var image: String = "",
-                          @Embedded var location: Location = Location()) : Parcelable
+data class SiteModel(@PrimaryKey(autoGenerate = true)
+                     var id: Long = 0,
+                     var fbId: String = "",
+                     var title: String = "",
+                     var description: String = "",
+                     var image: String = "",
+                     var visited: Boolean = false,
+                     var favourite: Boolean = false,
+                     @Embedded var location: Location = Location()) : Parcelable
 @Parcelize
 data class Location(var lat: Double = 0.0,
                     var lng: Double = 0.0,

@@ -43,7 +43,13 @@ class SiteAdapter constructor(
         //implementation of binding
         fun bind(site: SiteModel, listener: SiteListener) {
             itemView.siteTitle.text = site.title
-            itemView.description.text = site.description
+
+            itemView.latitude.text = (String.format("%.6f", site.location.lng))
+            itemView.longitude.text = (String.format("%.6f", site.location.lng))
+
+            itemView.visited.isChecked = site.visited
+            itemView.favourite.isChecked = site.favourite
+
             itemView.siteImage.setImageBitmap(readImageFromPath(itemView.context,site.image))
             Glide.with(itemView.context).load(site.image).into(itemView.siteImage)
             itemView.setOnClickListener{listener.onSiteClick(site)}

@@ -50,8 +50,8 @@ class SiteAdapter constructor(
             itemView.visited.isChecked = site.visited
             itemView.favourite.isChecked = site.favourite
 
-            itemView.siteImage.setImageBitmap(readImageFromPath(itemView.context,site.image))
-            Glide.with(itemView.context).load(site.image).into(itemView.siteImage)
+            itemView.siteImage.setImageBitmap(readImageFromPath(itemView.context,site.images.first))
+            Glide.with(itemView.context).load(site.images).into(itemView.siteImage)
             itemView.setOnClickListener{listener.onSiteClick(site)}
         }
     }

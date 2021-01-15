@@ -143,7 +143,8 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {
-                site.image = data.data.toString()
+                site.images.first = data.data.toString()
+//                TODO all images needs to be somehow managed
                 view?.showSite(site)
             }
             LOCATION_REQUEST -> {

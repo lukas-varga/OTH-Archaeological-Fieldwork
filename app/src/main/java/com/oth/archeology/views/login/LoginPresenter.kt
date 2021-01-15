@@ -46,9 +46,9 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
                 if (fireStore != null) {
+                    doPopulateSites()
                     fireStore!!.fetchSites {
                         view?.hideProgress()
-                        doPopulateSites()
                         view?.navigateTo(VIEW.LIST)
                     }
                 }
@@ -65,6 +65,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doPopulateSites(){
-//        TODO
+//        TODO login as admin an create assigned sites
+//        admin@argeo.com admin
     }
 }

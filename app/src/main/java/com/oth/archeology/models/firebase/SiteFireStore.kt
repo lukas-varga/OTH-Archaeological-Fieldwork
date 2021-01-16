@@ -2,6 +2,7 @@ package com.oth.archeology.models.firebase
 
 import android.content.Context
 import android.graphics.Bitmap
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -11,6 +12,7 @@ import com.oth.archeology.models.IMAGE
 import com.oth.archeology.models.Images
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.SiteStore
+import kotlinx.android.synthetic.main.activity_site.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -33,15 +35,21 @@ class SiteFireStore(val context: Context) : SiteStore {
     }
 
     override fun create(site: SiteModel) {
-        val key = db.child("users").child(userId).child("sites").push().key
+        val key = db.child("users")
+                .child(userId)
+                .child("sites")
+                .push().key
         key?.let {
             site.fbId = key
             sites.add(site)
-            db.child("users").child(userId).child("sites").child(key).setValue(site)
-            updateImage(site,IMAGE.FIRST)
-            updateImage(site,IMAGE.SECOND)
-            updateImage(site,IMAGE.THIRD)
-            updateImage(site,IMAGE.FOURTH)
+            db.child("users")
+                    .child(userId)
+                    .child("sites")
+                    .child(key).setValue(site)
+
+            for (enum in IMAGE.values()){
+                updateImage(site,enum)
+            }
         }
     }
 
@@ -58,23 +66,29 @@ class SiteFireStore(val context: Context) : SiteStore {
             foundSite.favourite = site.favourite
         }
 
-        db.child("users").child(userId).child("sites").child(site.fbId).setValue(site)
-        if ((site.images.first.length) > 0 && (site.images.first[0] != 'h')) {
-            updateImage(site,IMAGE.FIRST)
-        }
-        if ((site.images.second.length) > 0 && (site.images.second[0] != 'h')) {
-            updateImage(site,IMAGE.SECOND)
-        }
-        if ((site.images.third.length) > 0 && (site.images.third[0] != 'h')) {
-            updateImage(site,IMAGE.THIRD)
-        }
-        if ((site.images.fourth.length) > 0 && (site.images.fourth[0] != 'h')) {
-            updateImage(site,IMAGE.FOURTH)
+        db.child("users")
+                .child(userId)
+                .child("sites")
+                .child(site.fbId)
+                .setValue(site)
+
+        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
+        var enums = arrayOf(IMAGE.FIRST,IMAGE.SECOND,IMAGE.THIRD,IMAGE.FOURTH)
+
+        for (i in images.indices) {
+            if((images[i].length) > 0 && (images[i][0] != 'h')){
+                updateImage(site,enums[i])
+            }
         }
     }
 
     override fun delete(site: SiteModel) {
-        db.child("users").child(userId).child("sites").child(site.fbId).removeValue()
+        db.child("users")
+                .child(userId)
+                .child("sites")
+                .child(site.fbId)
+                .removeValue()
+
         sites.remove(site)
     }
 
@@ -82,9 +96,9 @@ class SiteFireStore(val context: Context) : SiteStore {
         sites.clear()
     }
 
-    fun updateImage(site: SiteModel,eImage: IMAGE) {
-        var selectedImage: String
-        selectedImage = when(eImage){
+
+    fun updateImage(site: SiteModel, enum: IMAGE) {
+         var selectedImage = when(enum){
             IMAGE.FIRST -> site.images.first
             IMAGE.SECOND -> site.images.second
             IMAGE.THIRD -> site.images.third
@@ -95,7 +109,7 @@ class SiteFireStore(val context: Context) : SiteStore {
             val fileName = File(selectedImage)
             val imageName = fileName.getName()
 
-            var imageRef = st.child(userId + '/' + imageName)
+            var imageRef = st.child(userId + "/" + imageName)
             val baos = ByteArrayOutputStream()
             val bitmap = readImageFromPath(context, selectedImage)
 
@@ -108,8 +122,10 @@ class SiteFireStore(val context: Context) : SiteStore {
                 }.addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
                         selectedImage = it.toString()
-                        db.child("users").child(userId).child("sites").child(site.fbId)
-                            .setValue(site)
+                        db.child("users")
+                                .child(userId).child("sites")
+                                .child(site.fbId)
+                                .setValue(site)
                     }
                 }
             }
@@ -130,7 +146,9 @@ class SiteFireStore(val context: Context) : SiteStore {
         db = FirebaseDatabase.getInstance().reference
         st = FirebaseStorage.getInstance().reference
         sites.clear()
-        db.child("users").child(userId).child("sites")
-            .addListenerForSingleValueEvent(valueEventListener)
+        db.child("users")
+                .child(userId)
+                .child("sites")
+                .addListenerForSingleValueEvent(valueEventListener)
     }
 }

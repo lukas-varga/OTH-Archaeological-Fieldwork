@@ -17,8 +17,8 @@ interface SiteListener {
 }
 
 class SiteAdapter constructor(
-    private var placemarks: List<SiteModel>,
-    private val listener: SiteListener
+        private var sites: List<SiteModel>,
+        private val listener: SiteListener
 ) : RecyclerView.Adapter<SiteAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -33,25 +33,26 @@ class SiteAdapter constructor(
 
     //binding data to cards
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val placemark = placemarks[holder.adapterPosition]
-        holder.bind(placemark, listener)
+        val site = sites[holder.adapterPosition]
+        holder.bind(site, listener)
     }
 
-    override fun getItemCount(): Int = placemarks.size
+    override fun getItemCount(): Int = sites.size
 
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //implementation of binding
         fun bind(site: SiteModel, listener: SiteListener) {
             itemView.siteTitle.text = site.title
 
-            itemView.latitude.text = (String.format("%.6f", site.location.lng))
+            itemView.latitude.text = (String.format("%.6f", site.location.lat))
             itemView.longitude.text = (String.format("%.6f", site.location.lng))
 
             itemView.visited.isChecked = site.visited
             itemView.favourite.isChecked = site.favourite
 
-            itemView.siteImage.setImageBitmap(readImageFromPath(itemView.context,site.images.first))
-            Glide.with(itemView.context).load(site.images).into(itemView.siteImage)
+            itemView.bindImage.setImageBitmap(readImageFromPath(itemView.context,site.images.first))
+            Glide.with(itemView.context).load(site.images.first).into(itemView.bindImage)
+
             itemView.setOnClickListener{listener.onSiteClick(site)}
         }
     }

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.oth.archeology.R
 import com.oth.archeology.helpers.readImageFromPath
+import com.oth.archeology.models.IMAGE
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
@@ -18,8 +19,8 @@ import org.jetbrains.anko.toast
 
 class  SiteView : BaseView(), AnkoLogger {
 
-lateinit var presenter: SitePresenter
-lateinit var map: GoogleMap
+    lateinit var presenter: SitePresenter
+    lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,20 +40,33 @@ lateinit var map: GoogleMap
         }
 
         chooseImage.setOnClickListener(){
-            info("image1 selected")
             presenter.cacheSite(siteTitle.text.toString(),description.text.toString())
-            presenter.doSelectImage()
+            presenter.showImagePicker(this)
+        }
+
+        var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
+        var enums = arrayOf(IMAGE.FIRST, IMAGE.SECOND, IMAGE.THIRD, IMAGE.FOURTH)
+
+        for (i in enums.indices) {
+            imageViews[i].setOnClickListener(){
+                presenter.cacheSite(siteTitle.text.toString(),description.text.toString())
+                presenter.displayImage(enums[i])
+                info {"---imageView listener "+i}
+            }
         }
     }
 
     override fun showSite(site: SiteModel){
         if(siteTitle.text.isEmpty()) siteTitle.setText(site.title)
         if(description.text.isEmpty())description.setText(site.description)
-        siteImage.setImageBitmap(readImageFromPath(this,site.images.first))
-        Glide.with(this).load(site.images).into(siteImage);
 
-        if (site.images != null) {
-           chooseImage.setText(R.string.button_changeImage)
+        var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
+        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
+
+        for (i in images.indices) {
+//            OFFLINE STRATEGY
+//            imageViews[i].setImageBitmap(readImageFromPath(this,images[i]))
+            Glide.with(this).load(images[i]).into(imageViews[i])
         }
 
         this.showLocation(site.location)

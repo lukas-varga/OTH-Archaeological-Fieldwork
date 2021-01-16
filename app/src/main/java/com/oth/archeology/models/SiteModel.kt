@@ -18,7 +18,7 @@ data class SiteModel(@PrimaryKey(autoGenerate = true)
                      var fbId: String = "",
                      var title: String = "",
                      var description: String = "",
-                     var images: Images = Images(),
+                     @Embedded var images: Images = Images(),
                      @Embedded var location: Location = Location(),
                      var date: Date = Date(1900,1,1),
                      var notes: String = "",
@@ -34,4 +34,7 @@ data class Location(var lat: Double = 0.0,
 data class Images(var first: String = "",
                   var second: String = "",
                   var third: String = "",
-                  var fourth: String = "") : Parcelable
+                  var fourth: String = ""): Parcelable
+
+@Parcelize
+data class ImagePath(var path: String = "",): Parcelable

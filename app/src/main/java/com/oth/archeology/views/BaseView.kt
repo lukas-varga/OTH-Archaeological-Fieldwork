@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
+import com.oth.archeology.views.image.DisplayImageView
 import com.oth.archeology.views.location.EditLocationView
 import com.oth.archeology.views.login.LoginView
 import com.oth.archeology.views.map.SiteMapView
@@ -21,7 +22,7 @@ val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
 
 enum class VIEW{
-    LOCATION, SITE, MAPS, LIST, LOGIN, SPLASH, SETTINGS
+    LOCATION, SITE, MAPS, LIST, LOGIN, SPLASH, SETTINGS, DISPLAY
 }
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
@@ -38,6 +39,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.LOCATION -> intent = Intent(this, EditLocationView::class.java)
             VIEW.MAPS -> intent = Intent(this, SiteMapView::class.java)
             VIEW.SETTINGS -> intent = Intent(this, SettingsView::class.java)
+            VIEW.DISPLAY  -> intent = Intent(this, DisplayImageView::class.java)
         }
         if(key != ""){
             intent.putExtra(key,value)
@@ -81,6 +83,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun showSite(placemark: SiteModel) {}
     open fun showSites(placemarks: List<SiteModel>) {}
     open fun showLocation(location: Location) {}
+    open fun showImage(path: String) {}
     open fun showProgress() {}
     open fun hideProgress() {}
 }

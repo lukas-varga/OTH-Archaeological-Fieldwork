@@ -34,7 +34,7 @@ class SiteMapView : BaseView(), GoogleMap.OnMarkerClickListener {
         currentTitle.text = site.title
         currentDescription.text = site.description
 //        currentImage.setImageBitmap(readImageFromPath(this, site.image))
-        Glide.with(this).load(site.images).into(currentImage);
+        Glide.with(this).load(site.images.first).into(currentImage);
     }
 
     override fun showSites(sites: List<SiteModel>) {

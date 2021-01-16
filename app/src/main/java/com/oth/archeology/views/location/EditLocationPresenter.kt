@@ -20,6 +20,7 @@ class EditLocationPresenter (view: BaseView) : BasePresenter(view){
     }
 
     fun doConfigureMap(map: GoogleMap) {
+        map.uiSettings.setZoomControlsEnabled(true)
         val loc = LatLng(location.lat, location.lng)
         val options: MarkerOptions = MarkerOptions()
                 .title("Site")

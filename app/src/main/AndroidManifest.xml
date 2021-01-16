@@ -63,6 +63,14 @@
             android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.sitelist.SiteListView" />
+        </activity>
+
+        <activity
+            android:name=".views.image.DisplayImageView"
+            android:label="@string/title_activity_display">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.site.SiteView" />
         </activity>
 

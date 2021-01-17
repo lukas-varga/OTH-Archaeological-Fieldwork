@@ -1,24 +1,29 @@
 package com.oth.archeology.views.site
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.oth.archeology.R
 import com.oth.archeology.helpers.checkLocationPermissions
 import com.oth.archeology.helpers.createDefaultLocationRequest
 import com.oth.archeology.helpers.isPermissionGranted
 import com.oth.archeology.helpers.showImagePicker
 import com.oth.archeology.models.*
 import com.oth.archeology.views.*
+import kotlinx.android.synthetic.main.activity_site.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 
 class SitePresenter(view: BaseView) : BasePresenter(view) {
@@ -26,6 +31,7 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     var site = SiteModel()
     var map: GoogleMap? = null
     var defaultLocation = Location(52.245696, -7.139102, 15f)
+    var defaltDate = Date(1900,0,1)
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     val locationRequest = createDefaultLocationRequest()
     var edit = false
@@ -77,9 +83,13 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun cacheSite(title: String, description: String){
+    fun cacheSite(title: String, description: String, notes: String, visited: Boolean, favourite: Boolean, rating: Float){
         site.title = title
         site.description = description
+        site.notes = notes
+        site.visited = visited
+        site.favourite = favourite
+        site.rating = rating
     }
 
     fun doConfigureMap(map: GoogleMap?) {
@@ -100,9 +110,14 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         view?.showLocation(site.location)
     }
 
-    fun doAddOrSave(title: String, description: String) {
+    fun doAddOrSave(title: String, description: String, notes: String, visited: Boolean, favourite: Boolean, rating: Float) {
         site.title = title
         site.description = description
+        site.notes = notes
+        site.visited = visited
+        site.favourite = favourite
+        site.rating = rating
+
         doAsync {
             if (edit) {
                 app.sites.update(site)
@@ -128,11 +143,11 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun showImagePicker(context: Context){
+    fun doShowImageChooser(context: Context){
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Choose a picture to change")
 
-        var enums = arrayOf(IMAGE.FIRST.name,IMAGE.SECOND.name,IMAGE.THIRD.name,IMAGE.FOURTH.name)
+        var enums = arrayOf(IMAGE.FIRST.name, IMAGE.SECOND.name, IMAGE.THIRD.name, IMAGE.FOURTH.name)
         selectedImage= IMAGE.FIRST
         val checkedItem = 0 // first
         builder.setSingleChoiceItems(enums, checkedItem) { dialog, which ->
@@ -145,9 +160,8 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
             }
         }
 
-
         builder.setPositiveButton("OK") { dialog, which ->
-            view?.toast(""+selectedImage)
+            view?.toast("" + selectedImage)
             doSelectImage()
         }
         builder.setNegativeButton("Cancel", null)
@@ -162,17 +176,41 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun displayImage(enum: IMAGE){
+    fun doDislpayImage(enum: IMAGE){
         var text = when(enum){
-            IMAGE.FIRST ->  site.images.first
+            IMAGE.FIRST -> site.images.first
             IMAGE.SECOND -> site.images.second
             IMAGE.THIRD -> site.images.third
             IMAGE.FOURTH -> site.images.fourth
         }
         var data = ImagePath(text)
-        view?.info("---site presenter "+data.path)
-        view?.navigateTo(VIEW.DISPLAY,8,"display_image",data)
+        view?.navigateTo(VIEW.DISPLAY, 8, "display_image", data)
     }
+
+    fun doShowDatePicker(context: Context){
+        val c = Calendar.getInstance()
+        var year = c.get(Calendar.YEAR)
+        var month = c.get(Calendar.MONTH)
+        var day = c.get(Calendar.DAY_OF_MONTH)
+
+        if(site.date != defaltDate){
+            var year = site.date.year
+            var month = site.date.month
+            var day = site.date.day
+        }
+
+        val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener(){ view, yearOf, monthOfYear, dayOfMonth ->
+                site.date = Date(yearOf,monthOfYear,dayOfMonth)
+                buttonText(site.date)
+        }, year, month, day)
+
+        dpd.show()
+    }
+
+    fun buttonText(date: Date){
+        view?.loadDate(date)
+    }
+
 
     fun doSetLocation() {
         userLoc = true
@@ -183,7 +221,7 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {
-                when(selectedImage){
+                when (selectedImage) {
                     IMAGE.FIRST -> site.images.first = data.data.toString()
                     IMAGE.SECOND -> site.images.second = data.data.toString()
                     IMAGE.THIRD -> site.images.third = data.data.toString()

@@ -47,8 +47,8 @@ class SiteAdapter constructor(
             itemView.latitude.text = (String.format("%.6f", site.location.lat))
             itemView.longitude.text = (String.format("%.6f", site.location.lng))
 
-            itemView.visited.isChecked = site.visited
-            itemView.favourite.isChecked = site.favourite
+            itemView.visitedCheck.isChecked = site.visited
+            itemView.favouriteCheck.isChecked = site.favourite
 
             itemView.bindImage.setImageBitmap(readImageFromPath(itemView.context,site.images.first))
             Glide.with(itemView.context).load(site.images.first).into(itemView.bindImage)

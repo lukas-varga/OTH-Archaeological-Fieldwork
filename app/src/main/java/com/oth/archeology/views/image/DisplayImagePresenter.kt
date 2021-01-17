@@ -13,9 +13,6 @@ class DisplayImagePresenter(view: BaseView) : BasePresenter (view) {
         if (view.intent.hasExtra("display_image")) {
             data = view.intent.extras?.getParcelable<ImagePath>("display_image")!!
             view.showImage(data.path)
-            view.toast("---"+data.path)
         }
-        view.toast("---Nope")
-//TODO Firebase
     }
 }

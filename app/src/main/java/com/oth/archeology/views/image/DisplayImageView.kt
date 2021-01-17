@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.oth.archeology.R
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_display_image.*
+import org.jetbrains.anko.info
 
 class DisplayImageView : BaseView() {
 
@@ -12,14 +13,14 @@ class DisplayImageView : BaseView() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_map)
+        setContentView(R.layout.activity_display_image)
         super.init(toolbar, true)
 
         presenter = initPresenter(DisplayImagePresenter(this)) as DisplayImagePresenter
     }
 
     override fun showImage(path: String){
-//        displayImage.setImageBitmap(readImageFromPath(this,path)
+//        displayImage.setImageBitmap(readImageFromPath(this,path))
         Glide.with(this).load(path).into(displayImage)
     }
 

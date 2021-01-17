@@ -33,9 +33,10 @@
     <string name="button_location_change">Change Location</string>
     <string name="button_signUp">Sign Up</string>
     <string name="button_logIn">Log In</string>
+    <string name="button_chooseDate">Change Visit Date</string>
     <string name="label_splash">by Lukas Varga</string>
-    <string name="label_siteTitle">Site Title</string>
-    <string name="label_description">Description</string>
+    <string name="hint_siteTitle">Site Title</string>
+    <string name="hint_siteDescription">Description</string>
     <string name="label_lat">Lat:</string>
     <string name="label_lng">Lng:</string>
     <string name="label_lat_map">Lat:</string>
@@ -43,7 +44,10 @@
     <string name="label_lat_list">Lat:</string>
     <string name="label_lng_list">Lng:</string>
     <string name="label_email">Email</string>
+    <string name="hint_email">user@mail.com</string>
     <string name="label_password">Password</string>
-    <string name="label_visited">Visited</string>
-    <string name="label_favourite">Favourite</string>
+    <string name="label_card_visited">Visited</string>
+    <string name="label_visited">I have visited the site</string>
+    <string name="label_favourite">Mark Favourite</string>
+    <string name="hint_notes">Personal notes of student</string>
 </resources>

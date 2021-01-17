@@ -17,6 +17,7 @@ import com.oth.archeology.views.site.SiteView
 import com.oth.archeology.views.sitelist.SiteListView
 import com.oth.archeology.views.splash.SplashView
 import org.jetbrains.anko.AnkoLogger
+import java.util.*
 
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
@@ -84,6 +85,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun showSites(placemarks: List<SiteModel>) {}
     open fun showLocation(location: Location) {}
     open fun showImage(path: String) {}
+    open fun loadDate(date: Date) {}
     open fun showProgress() {}
     open fun hideProgress() {}
 }

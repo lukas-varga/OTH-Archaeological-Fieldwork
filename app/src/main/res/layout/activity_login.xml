@@ -57,9 +57,11 @@
             android:layout_marginTop="115dp"
             android:layout_marginEnd="64dp"
             android:ems="10"
+            android:hint="@string/hint_email"
             android:text="test@test.com"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
 
         <EditText
             android:id="@+id/fieldPassword"

@@ -2,23 +2,22 @@ package com.oth.archeology.models.firebase
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.oth.archeology.helpers.readImageFromPath
-import com.oth.archeology.models.IMAGE
-import com.oth.archeology.models.Images
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.SiteStore
 import kotlinx.android.synthetic.main.activity_site.*
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SiteFireStore(val context: Context) : SiteStore {
+class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {
 
     val sites = ArrayList<SiteModel>()
     lateinit var userId: String
@@ -47,9 +46,7 @@ class SiteFireStore(val context: Context) : SiteStore {
                     .child("sites")
                     .child(key).setValue(site)
 
-            for (enum in IMAGE.values()){
-                updateImage(site,enum)
-            }
+            updateImages(site)
         }
     }
 
@@ -64,6 +61,7 @@ class SiteFireStore(val context: Context) : SiteStore {
             foundSite.notes = site.notes
             foundSite.visited = site.visited
             foundSite.favourite = site.favourite
+            foundSite.rating = site.rating
         }
 
         db.child("users")
@@ -72,14 +70,7 @@ class SiteFireStore(val context: Context) : SiteStore {
                 .child(site.fbId)
                 .setValue(site)
 
-        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
-        var enums = arrayOf(IMAGE.FIRST,IMAGE.SECOND,IMAGE.THIRD,IMAGE.FOURTH)
-
-        for (i in images.indices) {
-            if((images[i].length) > 0 && (images[i][0] != 'h')){
-                updateImage(site,enums[i])
-            }
-        }
+        updateImages(site)
     }
 
     override fun delete(site: SiteModel) {
@@ -97,35 +88,37 @@ class SiteFireStore(val context: Context) : SiteStore {
     }
 
 
-    fun updateImage(site: SiteModel, enum: IMAGE) {
-         var selectedImage = when(enum){
-            IMAGE.FIRST -> site.images.first
-            IMAGE.SECOND -> site.images.second
-            IMAGE.THIRD -> site.images.third
-            IMAGE.FOURTH -> site.images.fourth
-        }
+    fun updateImages(site: SiteModel) {
+        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
+        for (i in images.indices){
+            if (images[i] != "") {
+                val fileName = File(images[i])
+                val imageName = fileName.getName()
 
-        if (selectedImage != "") {
-            val fileName = File(selectedImage)
-            val imageName = fileName.getName()
+                var imageRef = st.child(userId + "/" + imageName)
+                val baos = ByteArrayOutputStream()
+                val bitmap = readImageFromPath(context, images[i])
 
-            var imageRef = st.child(userId + "/" + imageName)
-            val baos = ByteArrayOutputStream()
-            val bitmap = readImageFromPath(context, selectedImage)
+                bitmap?.let {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val data = baos.toByteArray()
+                    val uploadTask = imageRef.putBytes(data)
+                    uploadTask.addOnFailureListener {
+                        println(it.message)
+                    }.addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                            when(i){
+                                0 -> site.images.first = it.toString()
+                                1 -> site.images.second = it.toString()
+                                2 -> site.images.third = it.toString()
+                                3 -> site.images.fourth = it.toString()
 
-            bitmap?.let {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-                val data = baos.toByteArray()
-                val uploadTask = imageRef.putBytes(data)
-                uploadTask.addOnFailureListener {
-                    println(it.message)
-                }.addOnSuccessListener { taskSnapshot ->
-                    taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
-                        selectedImage = it.toString()
-                        db.child("users")
-                                .child(userId).child("sites")
-                                .child(site.fbId)
-                                .setValue(site)
+                            }
+                            db.child("users")
+                                    .child(userId).child("sites")
+                                    .child(site.fbId)
+                                    .setValue(site)
+                        }
                     }
                 }
             }

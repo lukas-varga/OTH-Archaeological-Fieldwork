@@ -7,15 +7,14 @@ import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.oth.archeology.R
-import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.models.IMAGE
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
+import java.util.*
 
 class  SiteView : BaseView(), AnkoLogger {
 
@@ -34,14 +33,14 @@ class  SiteView : BaseView(), AnkoLogger {
             map=it
             presenter.doConfigureMap(map)
             map.setOnMapClickListener{
-                presenter.cacheSite(siteTitle.text.toString(),description.text.toString())
+                prepareCache()
                 presenter.doSetLocation()
             }
         }
 
         chooseImage.setOnClickListener(){
-            presenter.cacheSite(siteTitle.text.toString(),description.text.toString())
-            presenter.showImagePicker(this)
+            prepareCache()
+            presenter.doShowImageChooser(this)
         }
 
         var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
@@ -49,22 +48,42 @@ class  SiteView : BaseView(), AnkoLogger {
 
         for (i in enums.indices) {
             imageViews[i].setOnClickListener(){
-                presenter.cacheSite(siteTitle.text.toString(),description.text.toString())
-                presenter.displayImage(enums[i])
-                info {"---imageView listener "+i}
+                prepareCache()
+                presenter.doDislpayImage(enums[i])
             }
         }
+
+        chooseDate.setOnClickListener(){
+            prepareCache()
+            presenter.doShowDatePicker(this)
+        }
+    }
+
+    private fun prepareCache() {
+        presenter.cacheSite(siteTitle.text.toString(),
+                description.text.toString(),
+                siteNotes.text.toString(),
+                visitedCheck.isChecked,
+                favouriteCheck.isChecked,
+                ratingBar.rating)
     }
 
     override fun showSite(site: SiteModel){
         if(siteTitle.text.isEmpty()) siteTitle.setText(site.title)
         if(description.text.isEmpty())description.setText(site.description)
+        if(siteNotes.text.isEmpty()) siteNotes.setText(site.notes)
+
+        visitedCheck.isChecked = site.visited
+        favouriteCheck.isChecked = site.favourite
+        ratingBar.rating = site.rating
+
+        loadDate(site.date)
 
         var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
         var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
 
         for (i in images.indices) {
-//            OFFLINE STRATEGY
+//        TODO offline strategy
 //            imageViews[i].setImageBitmap(readImageFromPath(this,images[i]))
             Glide.with(this).load(images[i]).into(imageViews[i])
         }
@@ -75,6 +94,11 @@ class  SiteView : BaseView(), AnkoLogger {
     override fun showLocation(location: Location) {
         valueLat.setText(String.format("%.6f",location.lat))
         valueLng.setText(String.format("%.6f",location.lng))
+    }
+
+    override fun loadDate(date: Date){
+        var text = ""+date.day+"/"+(date.month+1)+"/"+date.year
+        chooseDate.setText(text)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -95,7 +119,12 @@ class  SiteView : BaseView(), AnkoLogger {
                 if (siteTitle.text.toString().isEmpty()) {
                     toast(R.string.toast_missingTitle)
                 } else {
-                    presenter.doAddOrSave(siteTitle.text.toString(), description.text.toString())
+                    presenter.doAddOrSave(siteTitle.text.toString(),
+                            description.text.toString(),
+                            siteNotes.text.toString(),
+                            visitedCheck.isChecked,
+                            favouriteCheck.isChecked,
+                            ratingBar.rating)
                 }
             }
         }

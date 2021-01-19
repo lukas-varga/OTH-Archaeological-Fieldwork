@@ -5,7 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 enum class IMAGE{
     FIRST,SECOND,THIRD,FOURTH
@@ -20,13 +19,16 @@ data class SiteModel(@PrimaryKey(autoGenerate = true)
                      var description: String = "",
                      @Embedded var images: Images = Images(),
                      @Embedded var location: Location = Location(),
-                     var date: Date = Date(1900,0,1),
+                     var date: LocalDate = LocalDate(1900,1,1),
                      var notes: String = "",
                      var visited: Boolean = false,
                      var favourite: Boolean = false,
                      var rating: Float = 2.5f) : Parcelable
 
-//TODO make all changes to the whole model lol
+@Parcelize
+data class LocalDate(var year: Int = 0,
+                    var month: Int = 0,
+                    var day: Int = 0) : Parcelable
 
 @Parcelize
 data class Location(var lat: Double = 0.0,

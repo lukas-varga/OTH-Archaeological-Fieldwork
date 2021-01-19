@@ -4,36 +4,31 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.view.View
-import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.oth.archeology.R
 import com.oth.archeology.helpers.checkLocationPermissions
 import com.oth.archeology.helpers.createDefaultLocationRequest
 import com.oth.archeology.helpers.isPermissionGranted
 import com.oth.archeology.helpers.showImagePicker
 import com.oth.archeology.models.*
 import com.oth.archeology.views.*
-import kotlinx.android.synthetic.main.activity_site.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import java.util.*
-
 
 class SitePresenter(view: BaseView) : BasePresenter(view) {
 
     var site = SiteModel()
     var map: GoogleMap? = null
     var defaultLocation = Location(52.245696, -7.139102, 15f)
-    var defaltDate = Date(1900,0,1)
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     val locationRequest = createDefaultLocationRequest()
+    val defaultDate = LocalDate(1900,1,1)
     var edit = false
     var userLoc = false
     var selectedImage: IMAGE = IMAGE.FIRST
@@ -189,26 +184,31 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
 
     fun doShowDatePicker(context: Context){
         val c = Calendar.getInstance()
-        var year = c.get(Calendar.YEAR)
-        var month = c.get(Calendar.MONTH)
-        var day = c.get(Calendar.DAY_OF_MONTH)
 
-        if(site.date != defaltDate){
-            var year = site.date.year
-            var month = site.date.month
-            var day = site.date.day
+        if(site.date == defaultDate){
+            val thisYear = LocalDate(2021,1,1)
+            c.set(thisYear.year,thisYear.month,thisYear.day)
+        }
+        else{
+            c.set(site.date.year,
+                site.date.month-1,
+                site.date.day)
         }
 
-        val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener(){ view, yearOf, monthOfYear, dayOfMonth ->
-                site.date = Date(yearOf,monthOfYear,dayOfMonth)
-                buttonText(site.date)
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            site.date = LocalDate(year,monthOfYear+1 ,dayOfMonth)
+            loadDate(site.date)
         }, year, month, day)
 
         dpd.show()
     }
 
-    fun buttonText(date: Date){
-        view?.loadDate(date)
+    fun loadDate(date: LocalDate){
+        view?.showDate(date)
     }
 
 

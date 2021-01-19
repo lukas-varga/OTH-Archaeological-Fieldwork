@@ -2,10 +2,10 @@ package com.oth.archeology.views
 
 import android.content.Intent
 import android.os.Parcelable
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
+import com.oth.archeology.models.LocalDate
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.image.DisplayImageView
@@ -17,7 +17,6 @@ import com.oth.archeology.views.site.SiteView
 import com.oth.archeology.views.sitelist.SiteListView
 import com.oth.archeology.views.splash.SplashView
 import org.jetbrains.anko.AnkoLogger
-import java.util.*
 
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
@@ -85,7 +84,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun showSites(placemarks: List<SiteModel>) {}
     open fun showLocation(location: Location) {}
     open fun showImage(path: String) {}
-    open fun loadDate(date: Date) {}
+    open fun showDate(date: LocalDate) {}
     open fun showProgress() {}
     open fun hideProgress() {}
 }

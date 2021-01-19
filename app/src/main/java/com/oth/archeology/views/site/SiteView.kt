@@ -8,13 +8,13 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.oth.archeology.R
 import com.oth.archeology.models.IMAGE
+import com.oth.archeology.models.LocalDate
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
-import java.util.*
 
 class  SiteView : BaseView(), AnkoLogger {
 
@@ -77,7 +77,7 @@ class  SiteView : BaseView(), AnkoLogger {
         favouriteCheck.isChecked = site.favourite
         ratingBar.rating = site.rating
 
-        loadDate(site.date)
+        showDate(site.date)
 
         var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
         var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
@@ -96,9 +96,12 @@ class  SiteView : BaseView(), AnkoLogger {
         valueLng.setText(String.format("%.6f",location.lng))
     }
 
-    override fun loadDate(date: Date){
-        var text = ""+date.day+"/"+(date.month+1)+"/"+date.year
-        chooseDate.setText(text)
+    override fun showDate(date: LocalDate){
+        val defaultDate = LocalDate(1900,1,1)
+        if(date != defaultDate){
+            val text = "${date.day}/${date.month}/${date.year}"
+            chooseDate.text = text
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

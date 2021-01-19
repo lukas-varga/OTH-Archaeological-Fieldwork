@@ -9,12 +9,9 @@ import com.google.firebase.storage.StorageReference
 import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.SiteStore
-import kotlinx.android.synthetic.main.activity_site.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {

@@ -83,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/siteTitle"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="0"
             android:clickable="false"
             android:focusable="false"
             android:text="@string/label_card_visited" />
@@ -95,8 +94,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/visitedCheck"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
             android:clickable="false"
             android:focusable="false"
             android:isIndicator="true"

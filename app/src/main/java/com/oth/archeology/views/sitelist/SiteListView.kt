@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
@@ -28,6 +31,10 @@ class SiteListView  : BaseView(), SiteListener {
     }
 
     override fun showSites(sites: List<SiteModel>) {
+        var layout: RecyclerView = findViewById(R.id.recyclerView)
+        layout.invalidate()
+        layout.requestLayout()
+
         recyclerView.adapter = SiteAdapter(sites, this)
         recyclerView.adapter?.notifyDataSetChanged()
     }

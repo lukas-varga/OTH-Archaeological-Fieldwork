@@ -16,15 +16,17 @@ import kotlinx.android.synthetic.main.activity_site.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 
+
 class  SiteView : BaseView(), AnkoLogger {
 
     lateinit var presenter: SitePresenter
     lateinit var map: GoogleMap
+    lateinit var menuList: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_site)
-        super.init(toolbar,true)
+        super.init(toolbar, true)
 
         presenter = initPresenter(SitePresenter(this)) as SitePresenter
 
@@ -43,7 +45,7 @@ class  SiteView : BaseView(), AnkoLogger {
             presenter.doShowImageChooser(this)
         }
 
-        var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
+        var imageViews = arrayOf(siteImage1, siteImage2, siteImage3, siteImage4)
         var enums = arrayOf(IMAGE.FIRST, IMAGE.SECOND, IMAGE.THIRD, IMAGE.FOURTH)
 
         for (i in enums.indices) {
@@ -60,12 +62,14 @@ class  SiteView : BaseView(), AnkoLogger {
     }
 
     private fun prepareCache() {
-        presenter.cacheSite(siteTitle.text.toString(),
-                description.text.toString(),
-                siteNotes.text.toString(),
-                visitedCheck.isChecked,
-                favouriteCheck.isChecked,
-                ratingBar.rating)
+        presenter.cacheSite(
+            siteTitle.text.toString(),
+            description.text.toString(),
+            siteNotes.text.toString(),
+            visitedCheck.isChecked,
+            favouriteCheck.isChecked,
+            ratingBar.rating
+        )
     }
 
     override fun showSite(site: SiteModel){
@@ -79,8 +83,13 @@ class  SiteView : BaseView(), AnkoLogger {
 
         showDate(site.date)
 
-        var imageViews = arrayOf(siteImage1,siteImage2,siteImage3,siteImage4)
-        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
+        var imageViews = arrayOf(siteImage1, siteImage2, siteImage3, siteImage4)
+        var images = arrayOf(
+            site.images.first,
+            site.images.second,
+            site.images.third,
+            site.images.fourth
+        )
 
         for (i in images.indices) {
 //        TODO offline strategy
@@ -92,12 +101,12 @@ class  SiteView : BaseView(), AnkoLogger {
     }
 
     override fun showLocation(location: Location) {
-        valueLat.setText(String.format("%.6f",location.lat))
-        valueLng.setText(String.format("%.6f",location.lng))
+        valueLat.setText(String.format("%.6f", location.lat))
+        valueLng.setText(String.format("%.6f", location.lng))
     }
 
     override fun showDate(date: LocalDate){
-        val defaultDate = LocalDate(1900,1,1)
+        val defaultDate = LocalDate(1900, 1, 1)
         if(date != defaultDate){
             val text = "${date.day}/${date.month}/${date.year}"
             chooseDate.text = text
@@ -105,8 +114,13 @@ class  SiteView : BaseView(), AnkoLogger {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menuList = menu
         menuInflater.inflate(R.menu.menu_site, menu)
-        if(presenter.edit) menu.getItem(0).setVisible(true)
+
+        if(presenter.edit){
+            var item: MenuItem = menuList.findItem(R.id.item_delete)
+            item.isVisible = true
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -122,12 +136,14 @@ class  SiteView : BaseView(), AnkoLogger {
                 if (siteTitle.text.toString().isEmpty()) {
                     toast(R.string.toast_missingTitle)
                 } else {
-                    presenter.doAddOrSave(siteTitle.text.toString(),
-                            description.text.toString(),
-                            siteNotes.text.toString(),
-                            visitedCheck.isChecked,
-                            favouriteCheck.isChecked,
-                            ratingBar.rating)
+                    presenter.doAddOrSave(
+                        siteTitle.text.toString(),
+                        description.text.toString(),
+                        siteNotes.text.toString(),
+                        visitedCheck.isChecked,
+                        favouriteCheck.isChecked,
+                        ratingBar.rating
+                    )
                 }
             }
         }
@@ -137,7 +153,7 @@ class  SiteView : BaseView(), AnkoLogger {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null){
-            presenter.doActivityResult(requestCode,resultCode,data)
+            presenter.doActivityResult(requestCode, resultCode, data)
         }
     }
 

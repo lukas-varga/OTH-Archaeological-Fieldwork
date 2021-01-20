@@ -3,23 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/item_delete"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="@string/menu_deleteSite"
-        app:showAsAction="always"
-        android:visible="false"/>
-
-    <item
         android:id="@+id/item_save"
         android:icon="@android:drawable/ic_menu_save"
         android:title="@string/menu_saveSite"
-        android:visible="true"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_share"
+        android:title="@string/menu_share"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/item_preciseLocation"
+        android:title="@string/menu_preciseLocation"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/menu_deleteSite"
+        app:showAsAction="never"
+        android:visible="false"/>
 
     <item
         android:id="@+id/item_cancel"
         android:icon="@android:drawable/ic_menu_revert"
         android:title="@string/menu_cancelSite"
-        app:showAsAction="always"
+        app:showAsAction="never"
         android:visible="false"/>
 </menu>

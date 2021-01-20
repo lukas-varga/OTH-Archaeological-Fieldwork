@@ -5,7 +5,7 @@ import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
-import com.oth.archeology.models.LocalDate
+import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.image.DisplayImageView
@@ -80,11 +80,11 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    open fun showSite(placemark: SiteModel) {}
-    open fun showSites(placemarks: List<SiteModel>) {}
+    open fun showSite(site: SiteModel) {}
+    open fun showSites(sites: List<SiteModel>) {}
     open fun showLocation(location: Location) {}
     open fun showImage(path: String) {}
-    open fun showDate(date: LocalDate) {}
+    open fun showDate(date: MyDate) {}
     open fun displayInfo() {}
     open fun showProgress() {}
     open fun hideProgress() {}

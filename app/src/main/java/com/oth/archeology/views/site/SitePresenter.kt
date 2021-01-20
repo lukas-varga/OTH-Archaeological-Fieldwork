@@ -28,7 +28,7 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     var defaultLocation = Location(52.245696, -7.139102, 15f)
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     val locationRequest = createDefaultLocationRequest()
-    val defaultDate = LocalDate(1900,1,1)
+    val defaultDate = MyDate(1900,1,1)
     var edit = false
     var userLoc = false
     var selectedImage: IMAGE = IMAGE.FIRST
@@ -186,7 +186,7 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         val c = Calendar.getInstance()
 
         if(site.date == defaultDate){
-            val thisYear = LocalDate(2021,1,1)
+            val thisYear = MyDate(2021,1,1)
             c.set(thisYear.year,thisYear.month,thisYear.day)
         }
         else{
@@ -200,14 +200,14 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            site.date = LocalDate(year,monthOfYear+1 ,dayOfMonth)
+            site.date = MyDate(year,monthOfYear+1 ,dayOfMonth)
             loadDate(site.date)
         }, year, month, day)
 
         dpd.show()
     }
 
-    fun loadDate(date: LocalDate){
+    fun loadDate(date: MyDate){
         view?.showDate(date)
     }
 

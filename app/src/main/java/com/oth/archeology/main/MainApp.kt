@@ -3,6 +3,8 @@ package com.oth.archeology.main
 import android.app.Application
 import com.oth.archeology.models.SiteStore
 import com.oth.archeology.models.firebase.SiteFireStore
+import com.oth.archeology.models.json.SiteJSONStore
+import com.oth.archeology.models.mem.SiteMemStore
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -17,6 +19,8 @@ class MainApp : Application(), AnkoLogger {
     override fun onCreate() {
         super.onCreate()
         sites = SiteFireStore(applicationContext)
+//        sites = SiteJSONStore(applicationContext)
+//        sites = SiteMemStore()
         info("Argeo started")
     }
 }

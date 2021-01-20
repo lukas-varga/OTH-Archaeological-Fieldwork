@@ -12,23 +12,22 @@ enum class IMAGE{
 
 @Parcelize
 @Entity
-data class SiteModel(@PrimaryKey(autoGenerate = true)
-                     var id: Long = 0,
+data class SiteModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
                      var fbId: String = "",
                      var title: String = "",
                      var description: String = "",
                      @Embedded var images: Images = Images(),
                      @Embedded var location: Location = Location(),
-                     var date: LocalDate = LocalDate(1900,1,1),
+                     var date: MyDate = MyDate(1900,1,1),
                      var notes: String = "",
                      var visited: Boolean = false,
                      var favourite: Boolean = false,
                      var rating: Float = 0f) : Parcelable
 
 @Parcelize
-data class LocalDate(var year: Int = 0,
-                    var month: Int = 0,
-                    var day: Int = 0) : Parcelable
+data class MyDate(var year: Int = 0,
+                  var month: Int = 0,
+                  var day: Int = 0) : Parcelable
 
 @Parcelize
 data class Location(var lat: Double = 0.0,

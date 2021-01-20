@@ -55,12 +55,12 @@ class   SiteListView  : BaseView(), SiteListener {
         return super.onOptionsItemSelected(item)
     }
 
-    //edit existing placemark
+    //edit existing site
     override fun onSiteClick(site: SiteModel) {
         presenter.doEditSite(site)
     }
 
-    //upadte recyclerView while changing placemark
+    //upadte recyclerView while changing site
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         presenter.loadSites()
         recyclerView.adapter?.notifyDataSetChanged()

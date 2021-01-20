@@ -1,5 +1,6 @@
 package com.oth.archeology.views.login
 
+import android.os.Handler
 import com.google.firebase.auth.FirebaseAuth
 import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
@@ -11,13 +12,13 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import kotlin.concurrent.thread
 
 class LoginPresenter(view: BaseView) : BasePresenter(view) {
 
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var fireStore: SiteFireStore? = null
 
-    var canContinue = true
     var emailAdmin = "admin@argeo.com"
     var passwordAdmin = "adminArgeo"
 
@@ -27,7 +28,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun doLogin(email: String, password: String){
+    fun doLogin(email: String, password: String, navigateTo: Boolean){
         view?.showProgress()
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
@@ -35,7 +36,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                     fireStore!!.fetchSites {
                         view?.hideProgress()
                         fireStore!!.userPassword = password
-                        if(canContinue){
+                        if(navigateTo){
                             view?.navigateTo(VIEW.LIST)
                         }
                     }
@@ -59,7 +60,6 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 if (fireStore != null) {
                     fireStore!!.fetchSites {
                         view?.hideProgress()
-                        doPopulateSites(email, password)
 //                        view?.navigateTo(VIEW.LIST)
                     }
                 }
@@ -73,6 +73,9 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 view?.toast(R.string.toast_signUpFailed.toString() + ": ${task.exception?.message}")
             }
         }
+
+        doLogOut()
+        doPopulateSites(email, password)
     }
 
     fun doLogOut(){
@@ -86,34 +89,54 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
      *     password: adminArgeo
      */
     fun doPopulateSites(email: String, password: String){
-        doLogOut()
-
-        doLogin(emailAdmin,passwordAdmin)
-        var defaultSites: List<SiteModel>
+        doLogin(emailAdmin,passwordAdmin,false)
+        var defaultSites: List<SiteModel> = listOf()
         var deepCopy : MutableList<SiteModel> = mutableListOf()
 
         doAsync {
             defaultSites = app.sites.findAll()
             uiThread {
                 defaultSites.forEach(){
-                    deepCopy.add(SiteModel(it.id,it.fbId,it.title,it.description,it.images,it.location,it.date,it.notes,it.visited,it.favourite,it.rating))
+                    var newSite = SiteModel()
+
+                    newSite.title = it.title
+                    newSite.title = it.title
+                    newSite.description = it.description
+                    newSite.images = it.images
+                    newSite.location = it.location
+                    newSite.date = it.date
+                    newSite.notes = it.notes
+                    newSite.visited = it.visited
+                    newSite.favourite = it.favourite
+                    newSite.rating = it.rating
+                    deepCopy.add(newSite)
                 }
                 doLogOut()
-                doLogin(email,password)
-                continueAsync(email,password,deepCopy)
-            }
-        }
-    }
+                doLogin(email,password,false)
 
-    fun continueAsync(email: String, password: String,deepCopy: MutableList<SiteModel>){
-        doAsync {
-            deepCopy.forEach(){
-                app.sites.create(it)
-            }
-            uiThread {
-                doLogOut()
-                doLogin(email,password)
-                view?.navigateTo(VIEW.LIST)
+                doAsync {
+                    deepCopy.forEach(){
+                        var newSite = SiteModel()
+
+                        newSite.title = it.title
+                        newSite.title = it.title
+                        newSite.description = it.description
+                        newSite.images = it.images
+                        newSite.location = it.location
+                        newSite.date = it.date
+                        newSite.notes = it.notes
+                        newSite.visited = it.visited
+                        newSite.favourite = it.favourite
+                        newSite.rating = it.rating
+
+                        app.sites.create(newSite)
+
+                    }
+                    uiThread {
+                        doLogOut()
+                        doLogin(email,password,true)
+                    }
+                }
             }
         }
     }

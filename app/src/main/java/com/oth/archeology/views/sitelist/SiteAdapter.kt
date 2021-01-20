@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.card_site.view.*
 
 
 interface SiteListener {
-    fun onSiteClick(placemark: SiteModel)
+    fun onSiteClick(site: SiteModel)
 }
 
 class SiteAdapter constructor(

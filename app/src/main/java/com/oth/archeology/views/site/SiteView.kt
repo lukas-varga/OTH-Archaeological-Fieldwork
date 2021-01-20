@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.oth.archeology.R
 import com.oth.archeology.models.IMAGE
-import com.oth.archeology.models.LocalDate
+import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
@@ -105,8 +105,8 @@ class  SiteView : BaseView(), AnkoLogger {
         valueLng.setText(String.format("%.6f", location.lng))
     }
 
-    override fun showDate(date: LocalDate){
-        val defaultDate = LocalDate(1900, 1, 1)
+    override fun showDate(date: MyDate){
+        val defaultDate = MyDate(1900, 1, 1)
         if(date != defaultDate){
             val text = "${date.day}/${date.month}/${date.year}"
             chooseDate.text = text

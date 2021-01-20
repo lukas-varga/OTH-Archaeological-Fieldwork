@@ -14,8 +14,8 @@ class SiteListPresenter  (view: BaseView) : BasePresenter(view){
         view?.navigateTo(VIEW.SITE)
     }
 
-    fun doEditSite(placemark: SiteModel) {
-        view?.navigateTo(VIEW.SITE, 0, "site_edit", placemark)
+    fun doEditSite(site: SiteModel) {
+        view?.navigateTo(VIEW.SITE, 0, "site_edit", site)
     }
 
     fun doShowSiteMap(){
@@ -24,9 +24,9 @@ class SiteListPresenter  (view: BaseView) : BasePresenter(view){
 
     fun loadSites() {
         doAsync {
-            val placemarks = app.sites.findAll()
+            val sites = app.sites.findAll()
             uiThread {
-                view?.showSites(placemarks)
+                view?.showSites(sites)
             }
         }
     }

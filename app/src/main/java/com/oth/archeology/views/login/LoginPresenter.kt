@@ -26,6 +26,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 if (fireStore != null) {
                     fireStore!!.fetchSites {
                         view?.hideProgress()
+                        fireStore!!.userPassword = password
                         view?.navigateTo(VIEW.LIST)
                     }
                 }

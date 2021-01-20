@@ -8,6 +8,7 @@
     <string name="menu_saveSite">Save</string>
     <string name="menu_saveMap">Save</string>
     <string name="menut_settings">Settings</string>
+    <string name="menut_refreshInfo">Refresh</string>
     <string name="toast_missingTitle">Please enter a title</string>
     <string name="toast_missingAuthItems">Please provide email + password</string>
     <string name="toast_signUpFailed">Sign Up Failed</string>
@@ -34,9 +35,13 @@
     <string name="button_signUp">Sign Up</string>
     <string name="button_logIn">Log In</string>
     <string name="button_chooseDate">Change Visit Date</string>
-    <string name="label_splash">by Lukas Varga</string>
+    <string name="button_showPassword">Show Password</string>
+    <string name="button_hidePassword">Hide Password</string>
     <string name="hint_siteTitle">Site Title</string>
     <string name="hint_siteDescription">Description</string>
+    <string name="hint_email">user@mail.com</string>
+    <string name="hint_notes">Personal notes of student</string>
+    <string name="label_splash">by Lukas Varga</string>
     <string name="label_lat">Lat:</string>
     <string name="label_lng">Lng:</string>
     <string name="label_lat_map">Lat:</string>
@@ -44,10 +49,12 @@
     <string name="label_lat_list">Lat:</string>
     <string name="label_lng_list">Lng:</string>
     <string name="label_email">Email</string>
-    <string name="hint_email">user@mail.com</string>
     <string name="label_password">Password</string>
     <string name="label_card_visited">Visited</string>
     <string name="label_visited">I have visited the site</string>
     <string name="label_favourite">Mark Favourite</string>
-    <string name="hint_notes">Personal notes of student</string>
+    <string name="label_userDetails">Login details</string>
+    <string name="label_statistics">Statistics</string>
+    <string name="label_nrOfSites">No. of sites</string>
+    <string name="label_nrOfVisited">No. visited</string>
 </resources>

@@ -7,4 +7,5 @@ interface SiteStore {
     fun update(site: SiteModel)
     fun delete(site: SiteModel)
     fun clear()
+    fun getPassword(): String
 }

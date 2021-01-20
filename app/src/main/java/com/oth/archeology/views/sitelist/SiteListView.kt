@@ -14,7 +14,7 @@ import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site_list.*
 import kotlinx.android.synthetic.main.card_site.*
 
-class SiteListView  : BaseView(), SiteListener {
+class   SiteListView  : BaseView(), SiteListener {
 
     lateinit var presenter: SiteListPresenter
 

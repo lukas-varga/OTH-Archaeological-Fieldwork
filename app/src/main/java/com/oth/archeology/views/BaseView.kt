@@ -85,6 +85,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun showLocation(location: Location) {}
     open fun showImage(path: String) {}
     open fun showDate(date: LocalDate) {}
+    open fun displayInfo() {}
     open fun showProgress() {}
     open fun hideProgress() {}
 }

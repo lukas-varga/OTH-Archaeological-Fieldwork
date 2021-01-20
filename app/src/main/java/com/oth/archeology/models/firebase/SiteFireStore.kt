@@ -18,6 +18,7 @@ class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {
 
     val sites = ArrayList<SiteModel>()
     lateinit var userId: String
+    lateinit var userPassword: String
     lateinit var db: DatabaseReference
     lateinit var st: StorageReference
 
@@ -140,5 +141,9 @@ class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {
                 .child(userId)
                 .child("sites")
                 .addListenerForSingleValueEvent(valueEventListener)
+    }
+
+    override fun getPassword(): String{
+        return userPassword
     }
 }

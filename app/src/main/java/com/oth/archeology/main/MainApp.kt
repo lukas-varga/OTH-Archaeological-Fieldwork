@@ -10,6 +10,10 @@ class MainApp : Application(), AnkoLogger {
 
     lateinit var sites: SiteStore
 
+    /**
+     * Initial data was used from page below:
+     * https://www.english-heritage.org.uk/visit/familydaysout/top-10-castles/
+     */
     override fun onCreate() {
         super.onCreate()
         sites = SiteFireStore(applicationContext)

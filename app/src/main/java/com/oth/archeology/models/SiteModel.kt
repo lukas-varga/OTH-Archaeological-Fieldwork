@@ -23,7 +23,7 @@ data class SiteModel(@PrimaryKey(autoGenerate = true)
                      var notes: String = "",
                      var visited: Boolean = false,
                      var favourite: Boolean = false,
-                     var rating: Float = 2.5f) : Parcelable
+                     var rating: Float = 0f) : Parcelable
 
 @Parcelize
 data class LocalDate(var year: Int = 0,

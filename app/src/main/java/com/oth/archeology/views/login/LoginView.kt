@@ -26,6 +26,7 @@ class LoginView : BaseView() {
         buttonSignUp.setOnClickListener{
             val email = fieldEmail.text.toString()
             val password = fieldPassword.text.toString()
+            presenter.canContinue = false
 
             if(email == "" || password == ""){
                 toast(R.string.toast_missingAuthItems)
@@ -38,6 +39,7 @@ class LoginView : BaseView() {
         buttonLogIn.setOnClickListener {
             val email = fieldEmail.text.toString()
             val password = fieldPassword.text.toString()
+            presenter.canContinue = true
 
             if(email == "" || password == ""){
                 toast(R.string.toast_missingAuthItems)

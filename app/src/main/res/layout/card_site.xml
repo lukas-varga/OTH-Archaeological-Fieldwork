@@ -25,9 +25,10 @@
 
         <TextView
             android:id="@+id/siteTitle"
-            android:layout_width="250dp"
+            android:layout_width="296dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/bindImage"
+            android:maxLines="2"
             android:textSize="30sp" />
 
         <TextView
@@ -54,16 +55,16 @@
             android:layout_below="@id/siteTitle"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="24dp"
-            android:layout_toStartOf="@+id/visitedCheck"
+            android:layout_toStartOf="@+id/favouriteCheck"
             android:gravity="right|center_vertical" />
 
         <TextView
             android:id="@+id/longitude"
             android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/latitude"
             android:layout_marginEnd="24dp"
-            android:layout_toStartOf="@+id/visitedCheck"
+            android:layout_below="@id/latitude"
+            android:layout_toStartOf="@+id/favouriteCheck"
             android:gravity="right|center_vertical" />
 
 
@@ -72,8 +73,9 @@
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="0dp"
+            android:layout_below="@id/siteTitle"
+            android:layout_marginEnd="16dp"
+            android:layout_toStartOf="@+id/visitedCheck"
             android:clickable="false"
             android:focusable="false" />
 

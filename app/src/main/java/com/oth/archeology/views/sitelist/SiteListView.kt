@@ -4,19 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site_list.*
-import kotlinx.android.synthetic.main.card_site.*
 
 class   SiteListView  : BaseView(), SiteListener {
 
     lateinit var presenter: SiteListPresenter
+    lateinit var menuList: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +25,8 @@ class   SiteListView  : BaseView(), SiteListener {
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        presenter.loadSites()
+
+        presenter.doLoadSites()
     }
 
     override fun showSites(sites: List<SiteModel>) {
@@ -41,6 +40,9 @@ class   SiteListView  : BaseView(), SiteListener {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if(menu!=null){
+            this.menuList = menu
+        }
         menuInflater.inflate(R.menu.menu_site_list, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -49,6 +51,17 @@ class   SiteListView  : BaseView(), SiteListener {
         when (item?.itemId) {
             R.id.item_add -> presenter.doAddSite()
             R.id.item_map -> presenter.doShowSiteMap()
+            R.id.item_favourite -> {
+                var fav: MenuItem = menuList.findItem(R.id.item_favourite)
+                if(fav.title == getString(R.string.menu_showFavourite)){
+                    presenter.doShowFavourites()
+                    fav.setTitle(R.string.menu_showAll)
+                }
+                else if(fav.title == getString(R.string.menu_showAll)){
+                    presenter.doLoadSites()
+                    fav.setTitle(R.string.menu_showFavourite)
+                }
+            }
             R.id.item_logout -> presenter.doLogout()
             R.id.item_settings -> presenter.doSettings()
         }
@@ -62,7 +75,14 @@ class   SiteListView  : BaseView(), SiteListener {
 
     //upadte recyclerView while changing site
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        presenter.loadSites()
+        var fav: MenuItem = menuList.findItem(R.id.item_favourite)
+        if(fav.title == getString(R.string.menu_showFavourite)){
+            presenter.doLoadSites()
+        }
+        else if(fav.title == getString(R.string.menu_showAll)){
+            presenter.doShowFavourites()
+        }
+
         recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }

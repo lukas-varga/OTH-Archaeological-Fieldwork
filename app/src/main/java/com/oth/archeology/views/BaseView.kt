@@ -59,7 +59,10 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         supportActionBar?.setDisplayHomeAsUpEnabled(upEnabled)
         var user = FirebaseAuth.getInstance().currentUser
         if (user != null){
-            toolbar.title = "${title}: ${user.email}"
+            var email = user.email.toString()
+            var arr = email.split("@")
+            var userName = arr[0]
+            toolbar.title = "$title: $userName"
         }
     }
 

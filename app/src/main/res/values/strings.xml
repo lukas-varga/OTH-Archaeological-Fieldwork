@@ -2,7 +2,7 @@
     <string name="app_name">Argeo</string>
 
     <string name="menu_addSite">Add Site</string>
-    <string name="menu_showMap">Show Map</string>
+    <string name="menu_showMap">Map of Sites</string>
     <string name="menu_logOut">Logout</string>
     <string name="menu_cancelSite">Cancel</string>
     <string name="menu_deleteSite">Delete</string>
@@ -12,6 +12,8 @@
     <string name="menu_refreshInfo">Refresh</string>
     <string name="menu_share">Share Site</string>
     <string name="menu_preciseLocation">Precise Location</string>
+    <string name="menu_showFavourite">Show Favourites</string>
+    <string name="menu_showAll">Show All</string>
 
     <string name="toast_missingTitle">Please enter a title</string>
     <string name="toast_missingAuthItems">Please provide email + password</string>
@@ -66,4 +68,6 @@
     <string name="label_statistics">Statistics</string>
     <string name="label_nrOfSites">No. of sites</string>
     <string name="label_nrOfVisited">No. visited</string>
+
+    <string name="header_text">Email</string>
 </resources>

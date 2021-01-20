@@ -33,6 +33,9 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
                 if (fireStore != null) {
+
+                    //TODO maybe change something in firestore
+
                     fireStore!!.fetchSites {
                         view?.hideProgress()
                         fireStore!!.userPassword = password
@@ -56,14 +59,15 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
     fun doSignUp(email: String, password: String){
         view?.showProgress()
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
-            if(task.isSuccessful){
+            if(task.isSuccessful) {
                 if (fireStore != null) {
                     fireStore!!.fetchSites {
                         view?.hideProgress()
-//                        view?.navigateTo(VIEW.LIST)
+//                        doPopulateSites()
+                        view?.navigateTo(VIEW.LIST)
                     }
-                }
-                else{
+
+                } else {
                     view?.hideProgress()
                     view?.navigateTo(VIEW.LIST)
                 }
@@ -73,9 +77,6 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 view?.toast(R.string.toast_signUpFailed.toString() + ": ${task.exception?.message}")
             }
         }
-
-        doLogOut()
-        doPopulateSites(email, password)
     }
 
     fun doLogOut(){
@@ -96,7 +97,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         doAsync {
             defaultSites = app.sites.findAll()
             uiThread {
-                defaultSites.forEach(){
+                defaultSites.forEach() {
                     var newSite = SiteModel()
 
                     newSite.title = it.title
@@ -111,32 +112,32 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                     newSite.rating = it.rating
                     deepCopy.add(newSite)
                 }
-                doLogOut()
-                doLogin(email,password,false)
+            }
+        }
 
-                doAsync {
-                    deepCopy.forEach(){
-                        var newSite = SiteModel()
+        doLogOut()
+        doLogin(email,password,false)
 
-                        newSite.title = it.title
-                        newSite.title = it.title
-                        newSite.description = it.description
-                        newSite.images = it.images
-                        newSite.location = it.location
-                        newSite.date = it.date
-                        newSite.notes = it.notes
-                        newSite.visited = it.visited
-                        newSite.favourite = it.favourite
-                        newSite.rating = it.rating
+        doAsync {
+            deepCopy.forEach(){
+                var newSite = SiteModel()
 
-                        app.sites.create(newSite)
+                newSite.title = it.title
+                newSite.title = it.title
+                newSite.description = it.description
+                newSite.images = it.images
+                newSite.location = it.location
+                newSite.date = it.date
+                newSite.notes = it.notes
+                newSite.visited = it.visited
+                newSite.favourite = it.favourite
+                newSite.rating = it.rating
 
-                    }
-                    uiThread {
-                        doLogOut()
-                        doLogin(email,password,true)
-                    }
-                }
+                app.sites.create(newSite)
+
+            }
+            uiThread {
+                view?.navigateTo(VIEW.LIST)
             }
         }
     }

@@ -22,7 +22,22 @@ class SiteListPresenter  (view: BaseView) : BasePresenter(view){
         view?.navigateTo(VIEW.MAPS)
     }
 
-    fun loadSites() {
+    fun doShowFavourites(){
+        doAsync {
+            val sites = app.sites.findAll()
+            var favourites: MutableList<SiteModel> = mutableListOf()
+            sites.forEach(){
+                if(it.favourite){
+                    favourites.add(it)
+                }
+            }
+            uiThread {
+                view?.showSites(favourites)
+            }
+        }
+    }
+
+    fun doLoadSites() {
         doAsync {
             val sites = app.sites.findAll()
             uiThread {

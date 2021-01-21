@@ -11,7 +11,7 @@ import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.image.DisplayImageView
 import com.oth.archeology.views.location.EditLocationView
 import com.oth.archeology.views.login.LoginView
-import com.oth.archeology.views.map.SiteMapView
+import com.oth.archeology.views.sitemaps.SiteMapView
 import com.oth.archeology.views.settings.SettingsView
 import com.oth.archeology.views.site.SiteView
 import com.oth.archeology.views.sitelist.SiteListView

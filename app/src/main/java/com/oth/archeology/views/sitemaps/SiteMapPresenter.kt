@@ -1,4 +1,4 @@
-package com.oth.archeology.views.map
+package com.oth.archeology.views.sitemaps
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

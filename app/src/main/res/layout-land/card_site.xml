@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/bindImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="16dp"
@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/siteTitle"
-            android:layout_width="296dp"
+            android:layout_width="312dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/bindImage"
             android:maxLines="2"
@@ -35,8 +35,8 @@
             android:id="@+id/label_lat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/siteTitle"
-            android:layout_toEndOf="@id/bindImage"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/siteTitle"
             android:text="@string/label_lat_list" />
 
         <TextView
@@ -44,26 +44,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/label_lat"
-            android:layout_toEndOf="@id/bindImage"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/siteTitle"
             android:text="@string/label_lng_list" />
 
 
         <TextView
             android:id="@+id/latitude"
-            android:layout_width="96dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/siteTitle"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="16dp"
             android:layout_toStartOf="@+id/favouriteCheck"
             android:gravity="right|center_vertical" />
 
         <TextView
             android:id="@+id/longitude"
-            android:layout_width="96dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
             android:layout_below="@id/latitude"
+            android:layout_marginEnd="16dp"
             android:layout_toStartOf="@+id/favouriteCheck"
             android:gravity="right|center_vertical" />
 
@@ -73,7 +73,8 @@
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/siteTitle"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:layout_toStartOf="@+id/visitedCheck"
             android:clickable="false"
@@ -83,7 +84,6 @@
             android:id="@+id/visitedCheck"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/siteTitle"
             android:layout_alignParentEnd="true"
             android:clickable="false"
             android:focusable="false"

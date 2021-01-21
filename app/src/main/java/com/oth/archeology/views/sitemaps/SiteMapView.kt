@@ -1,4 +1,4 @@
-package com.oth.archeology.views.map
+package com.oth.archeology.views.sitemaps
 
 import android.os.Bundle
 import com.bumptech.glide.Glide

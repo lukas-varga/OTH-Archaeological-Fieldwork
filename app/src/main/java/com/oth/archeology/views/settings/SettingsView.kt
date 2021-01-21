@@ -50,7 +50,7 @@ class SettingsView : BaseView() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.item_refreshInfo -> {
                 presenter.doRefreshInfo()
             }

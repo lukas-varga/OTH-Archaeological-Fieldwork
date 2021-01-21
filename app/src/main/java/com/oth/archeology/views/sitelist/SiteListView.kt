@@ -18,7 +18,6 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
     lateinit var presenter: SiteListPresenter
     lateinit var menuList: Menu
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_site_list)
@@ -50,7 +49,7 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        if(menu!=null){
+        if(menu != null){
             this.menuList = menu
         }
         menuInflater.inflate(R.menu.menu_site_list, menu)
@@ -58,7 +57,6 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         when (item?.itemId) {
             R.id.item_add -> presenter.doAddSite()
             R.id.item_map -> presenter.doShowSiteMap()
@@ -107,13 +105,13 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
     //upadte recyclerView while changing site
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        var fav: MenuItem = menuList.findItem(R.id.item_favourite)
-        if(fav.title == getString(R.string.menu_showFavourite)){
-            presenter.doLoadSites()
-        }
-        else if(fav.title == getString(R.string.menu_showAll)){
-            presenter.doShowFavourites()
-        }
+//        var fav: MenuItem = menuList.findItem(R.id.item_favourite)
+//        if(fav.title == getString(R.string.menu_showFavourite)){
+//            presenter.doLoadSites()
+//        }
+//        else if(fav.title == getString(R.string.menu_showAll)){
+//            presenter.doShowFavourites()
+//        }
 
         recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)

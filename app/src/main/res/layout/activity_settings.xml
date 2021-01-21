@@ -32,106 +32,114 @@
             android:id="@+id/settingLabEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:text="@string/label_email"
             app:layout_constraintEnd_toStartOf="@+id/settingsEmail"
-            app:layout_constraintTop_toBottomOf="@+id/settingsLabDetails" />
+            app:layout_constraintTop_toTopOf="@+id/settingsEmail" />
 
         <TextView
             android:id="@+id/settingLabPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:text="@string/label_password"
             app:layout_constraintEnd_toStartOf="@+id/settingsPassword"
-            app:layout_constraintTop_toBottomOf="@+id/settingLabEmail" />
+            app:layout_constraintTop_toTopOf="@+id/settingsPassword" />
 
         <TextView
             android:id="@+id/settingLabSites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/label_nrOfSites"
             app:layout_constraintEnd_toStartOf="@+id/settingsAllSites"
-            app:layout_constraintTop_toBottomOf="@+id/settingsLabStatistics" />
+            app:layout_constraintTop_toTopOf="@+id/settingsAllSites" />
 
         <TextView
             android:id="@+id/settingLabVisited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/label_nrOfVisited"
             app:layout_constraintEnd_toStartOf="@+id/settingsVisited"
-            app:layout_constraintTop_toBottomOf="@+id/settingLabSites" />
+            app:layout_constraintTop_toTopOf="@+id/settingsVisited" />
 
         <EditText
             android:id="@+id/settingsEmail"
-            android:layout_width="200dp"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="64dp"
+            android:layout_marginTop="16dp"
             android:clickable="false"
+            android:ems="10"
             android:enabled="false"
             android:inputType="none"
-            android:ems="10"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsLabDetails" />
 
         <EditText
             android:id="@+id/settingsPassword"
-            android:layout_width="200dp"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="64dp"
             android:clickable="false"
-            android:inputType="textPassword"
-            android:enabled="false"
             android:ems="10"
+            android:enabled="false"
+            android:inputType="textPassword"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsEmail" />
 
         <EditText
             android:id="@+id/settingsAllSites"
-            android:layout_width="200dp"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="64dp"
+            android:layout_marginTop="16dp"
             android:clickable="false"
-            android:enabled="false"
-            android:inputType="none"
             android:ems="10"
+            android:enabled="false"
             android:gravity="center"
+            android:inputType="none"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsLabStatistics" />
 
         <EditText
             android:id="@+id/settingsVisited"
-            android:layout_width="200dp"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="64dp"
             android:clickable="false"
-            android:enabled="false"
             android:ems="10"
+            android:enabled="false"
             android:gravity="center"
             android:inputType="none"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.66"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settingsAllSites" />
 
         <TextView
             android:id="@+id/settingsLabDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="16dp"
             android:text="@string/label_userDetails"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
         <TextView
             android:id="@+id/settingsLabStatistics"
@@ -146,10 +154,9 @@
 
         <Button
             android:id="@+id/showHidePassword"
-            android:layout_width="200dp"
+            android:layout_width="222dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="64dp"
             android:background="@color/colorAccent"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
@@ -157,8 +164,18 @@
             android:text="@string/button_showPassword"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/settingsPassword"
             app:layout_constraintTop_toBottomOf="@+id/settingsPassword" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

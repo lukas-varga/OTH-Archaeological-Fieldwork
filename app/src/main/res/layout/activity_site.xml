@@ -75,9 +75,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
         android:text="@string/label_favourite"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/siteTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--    <Button-->
@@ -165,8 +165,8 @@
 
       <ImageView
           android:id="@+id/siteImage1"
-          android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_width="88dp"
+          android:layout_height="88dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -174,8 +174,8 @@
 
       <ImageView
           android:id="@+id/siteImage2"
-          android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_width="88dp"
+          android:layout_height="88dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -183,8 +183,8 @@
 
       <ImageView
           android:id="@+id/siteImage3"
-          android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_width="88dp"
+          android:layout_height="88dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -192,8 +192,8 @@
 
       <ImageView
           android:id="@+id/siteImage4"
-          android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_width="88dp"
+          android:layout_height="88dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -204,7 +204,7 @@
     <EditText
         android:id="@+id/siteNotes"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="88dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
@@ -261,7 +261,7 @@
         style="?android:attr/ratingBarStyleIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:clickable="true"
         android:focusable="true"
         android:isIndicator="false"

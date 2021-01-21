@@ -39,7 +39,7 @@
         android:id="@+id/siteTitle"
         android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="56dp"
         android:hint="@string/hint_siteTitle"
         android:inputType="text"
         android:maxLength="50"
@@ -69,17 +69,6 @@
         app:layout_constraintTop_toBottomOf="@+id/siteTitle"
         app:layout_constraintWidth_percent="0.66" />
 
-    <CheckBox
-        android:id="@+id/favouriteCheck"
-        style="?android:attr/starStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/label_favourite"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <!--    <Button-->
     <!--        android:id="@+id/siteLocation"-->
     <!--        android:layout_width="180dp"-->
@@ -96,6 +85,17 @@
     <!--        android:visibility="invisible"/>-->
 
 
+    <CheckBox
+        android:id="@+id/favouriteCheck"
+        style="?android:attr/starStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/label_favourite"
+        app:layout_constraintEnd_toEndOf="@+id/valueLat"
+        app:layout_constraintStart_toEndOf="@+id/siteTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/labelLat"
         android:layout_width="wrap_content"
@@ -110,10 +110,10 @@
         android:id="@+id/valueLat"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:gravity="right|center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/description"
         app:layout_constraintTop_toBottomOf="@+id/favouriteCheck" />
 
     <TextView
@@ -130,10 +130,10 @@
         android:id="@+id/valueLng"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:gravity="right|center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/description"
         app:layout_constraintTop_toBottomOf="@+id/valueLat"
         tools:ignore="RtlHardcoded" />
 
@@ -166,7 +166,7 @@
       <ImageView
           android:id="@+id/siteImage1"
           android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_height="72dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -175,7 +175,7 @@
       <ImageView
           android:id="@+id/siteImage2"
           android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_height="72dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -184,7 +184,7 @@
       <ImageView
           android:id="@+id/siteImage3"
           android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_height="72dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -193,7 +193,7 @@
       <ImageView
           android:id="@+id/siteImage4"
           android:layout_width="90dp"
-          android:layout_height="90dp"
+          android:layout_height="72dp"
           android:layout_marginStart="8dp"
           android:layout_marginTop="8dp"
           android:contentDescription="@string/site_image_placeholder"
@@ -201,11 +201,13 @@
 
     </LinearLayout>
 
+
     <EditText
         android:id="@+id/siteNotes"
-        android:layout_width="match_parent"
+        android:layout_width="256dp"
         android:layout_height="96dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/hint_notes"
@@ -214,8 +216,8 @@
         android:padding="8dp"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/chooseDate"
@@ -230,43 +232,39 @@
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/siteNotes" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <CheckBox
         android:id="@+id/visitedCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/label_visited"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/chooseDate"
-        app:layout_constraintTop_toBottomOf="@+id/siteNotes" />
-
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/siteMapView"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="256dp"
+        android:layout_height="196dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseDate" />
+        app:layout_constraintTop_toBottomOf="@+id/siteNotes" />
 
     <RatingBar
         android:id="@+id/ratingBar"
         style="?android:attr/ratingBarStyleIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:clickable="true"
         android:focusable="true"
         android:isIndicator="false"
         android:numStars="5"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/chooseImage"
         app:layout_constraintTop_toBottomOf="@+id/valueLng" />
 
   </androidx.constraintlayout.widget.ConstraintLayout>

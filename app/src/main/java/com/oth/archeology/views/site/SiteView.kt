@@ -21,7 +21,6 @@ class  SiteView : BaseView(), AnkoLogger {
 
     lateinit var presenter: SitePresenter
     lateinit var map: GoogleMap
-    lateinit var menuList: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,18 +113,17 @@ class  SiteView : BaseView(), AnkoLogger {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        this.menuList = menu
         menuInflater.inflate(R.menu.menu_site, menu)
 
         if(presenter.edit){
-            var item: MenuItem = menuList.findItem(R.id.item_delete)
+            var item: MenuItem = menu.findItem(R.id.item_delete)
             item.isVisible = true
         }
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.item_delete -> {
                 presenter.doDelete()
             }

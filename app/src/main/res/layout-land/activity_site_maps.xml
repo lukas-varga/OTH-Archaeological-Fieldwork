@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.map.SiteMapView">
+    tools:context=".views.sitemaps.SiteMapView">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -33,14 +33,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="358dp"
-            android:layout_height="128dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="196dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -48,65 +48,60 @@
 
                 <ImageView
                     android:id="@+id/currentImage"
-                    android:layout_width="138dp"
-                    android:layout_height="85dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_width="156dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:contentDescription="@string/site_image_placeholder"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.518"
                     app:srcCompat="@drawable/logo" />
 
                 <TextView
                     android:id="@+id/currentTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="128dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:maxLines="2"
+                    android:layout_marginTop="32dp"
+                    android:maxLines="3"
                     android:text="@string/site_title_placeholder"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/currentImage"
-                    app:layout_constraintHorizontal_bias="0.471"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/currentImage" />
 
                 <TextView
                     android:id="@+id/currentDescription"
-                    android:layout_width="150dp"
+                    android:layout_width="128dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:maxLines="4"
+                    android:maxLines="7"
                     android:text="@string/site_description_placeholder"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/currentImage"
-                    app:layout_constraintHorizontal_bias="0.471"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/currentTitle"
-                    app:layout_constraintVertical_bias="0.4" />
+                    app:layout_constraintVertical_bias="0.3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapViewAll"
-            android:layout_width="360dp"
-            android:layout_height="420dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="256dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.485"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.604" />
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

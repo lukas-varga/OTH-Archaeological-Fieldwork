@@ -1,6 +1,7 @@
 package com.oth.archeology.views.site
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -107,7 +108,8 @@ class  SiteView : BaseView(), AnkoLogger {
     override fun showDate(date: MyDate){
         val defaultDate = MyDate(1900, 1, 1)
         if(date != defaultDate){
-            val text = "${date.day}/${date.month}/${date.year}"
+            val text = "%02d/%02d/%04d".format(date.day, date.month, date.year)
+//            val text = "${date.day}/${date.month}/${date.year}"
             chooseDate.text = text
         }
     }
@@ -124,11 +126,11 @@ class  SiteView : BaseView(), AnkoLogger {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_delete -> {
-                presenter.doDelete()
-            }
             R.id.item_cancel -> {
                 presenter.doCancel()
+            }
+            R.id.item_delete -> {
+                presenter.doDelete()
             }
             R.id.item_save -> {
                 if (siteTitle.text.toString().isEmpty()) {
@@ -144,8 +146,22 @@ class  SiteView : BaseView(), AnkoLogger {
                     )
                 }
             }
+            R.id.item_share -> shareSite()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun shareSite(){
+        var export = presenter.doShareSite()
+
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, export)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

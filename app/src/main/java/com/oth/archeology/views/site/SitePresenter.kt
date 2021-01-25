@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,6 +21,7 @@ import com.oth.archeology.views.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import java.net.URI
 import java.util.*
 
 class SitePresenter(view: BaseView) : BasePresenter(view) {
@@ -103,6 +106,11 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         map?.addMarker(options)
         map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(site.location.lat, site.location.lng), site.location.zoom))
         view?.showLocation(site.location)
+    }
+
+    fun doSetLocation() {
+        userLoc = true
+        view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(site.location.lat, site.location.lng, site.location.zoom))
     }
 
     fun doAddOrSave(title: String, description: String, notes: String, visited: Boolean, favourite: Boolean, rating: Float) {
@@ -211,12 +219,49 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         view?.showDate(date)
     }
 
+    fun doShareSite(): String{
+        var result = StringBuilder()
 
-    fun doSetLocation() {
-        userLoc = true
-        view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(site.location.lat, site.location.lng, site.location.zoom))
+        if(site.title!=""){
+            result.append(site.title)
+            result.append("\n\n")
+        }
+        if(site.description!=""){
+            result.append(site.description)
+            result.append("\n\n")
+        }
+
+        if(site.visited){
+            result.append("Notes:\n")
+            result.append(site.notes)
+            result.append("\n\n")
+
+            result.append("Rating: ${site.rating}/5.0")
+            result.append("\n\n")
+
+            if(site.date != defaultDate){
+                var date = "%02d/%02d/%04d".format(site.date.day, site.date.month, site.date.year)
+                result.append("Visited: $date")
+                result.append("\n\n")
+            }
+        }
+
+        if(site.location != defaultLocation){
+            result.append("Address: https://maps.google.com/?ll=${site.location.lat},${site.location.lng}")
+            result.append("\n\n")
+        }
+
+        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
+
+        for (i in images.indices){
+            if(images[i] != ""){
+                result.append("Image_${i+1}: ${images[i]}")
+                result.append("\n")
+            }
+        }
+
+        return result.toString()
     }
-
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {

@@ -9,6 +9,19 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/item_searchCancel"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="@string/menu_searchCancel"
+        android:visible="false"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/menu_search"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/item_favourite"
         android:title="@string/menu_showFavourite"
         app:showAsAction="never" />
@@ -18,7 +31,6 @@
         android:icon="@android:drawable/ic_menu_mapmode"
         android:title="@string/menu_showMap"
         app:showAsAction="never" />
-
 
     <item
         android:id="@+id/item_settings"

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,7 @@ import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site_list.*
+import org.jetbrains.anko.toast
 
 
 class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationItemSelectedListener{
@@ -60,16 +63,13 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
         when (item?.itemId) {
             R.id.item_add -> presenter.doAddSite()
             R.id.item_map -> presenter.doShowSiteMap()
-            R.id.item_favourite -> {
-                var fav: MenuItem = menuList.findItem(R.id.item_favourite)
-                if (fav.title == getString(R.string.menu_showFavourite)) {
-                    presenter.doShowFavourites()
-                    fav.setTitle(R.string.menu_showAll)
-                } else if (fav.title == getString(R.string.menu_showAll)) {
-                    presenter.doLoadSites()
-                    fav.setTitle(R.string.menu_showFavourite)
-                }
+            R.id.item_search -> showSearchDialog()
+            R.id.item_searchCancel -> {
+                presenter.doLoadSites()
+                var searchCancel: MenuItem = menuList.findItem(R.id.item_searchCancel)
+                searchCancel.isVisible = false
             }
+            R.id.item_favourite -> showFavourites()
             R.id.item_logout -> presenter.doLogout()
             R.id.item_settings -> presenter.doSettings()
         }
@@ -80,22 +80,58 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
         when (item?.itemId) {
             R.id.drawer_SiteAdd -> presenter.doAddSite()
             R.id.drawer_map -> presenter.doShowSiteMap()
-            R.id.drawer_favourite -> {
-                var menu = navigationView.menu
-                var fav: MenuItem = menu.findItem(R.id.drawer_favourite)
-                if (fav.title == getString(R.string.menu_showFavourite)) {
-                    presenter.doShowFavourites()
-                    fav.setTitle(R.string.menu_showAll)
-                } else if (fav.title == getString(R.string.menu_showAll)) {
-                    presenter.doLoadSites()
-                    fav.setTitle(R.string.menu_showFavourite)
-                }
-            }
+            R.id.drawer_search -> showSearchDialog()
+            R.id.drawer_favourite -> showFavourites()
             R.id.drawer_logout -> presenter.doLogout()
             R.id.drawer_settings -> presenter.doSettings()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun showFavourites(){
+        var favMenu: MenuItem = menuList.findItem(R.id.item_favourite)
+
+        var menuNavigator = navigationView.menu
+        var favNavi: MenuItem = menuNavigator.findItem(R.id.drawer_favourite)
+
+        if (favMenu.title == getString(R.string.menu_showFavourite) && favNavi.title == getString(R.string.menu_showFavourite)) {
+            presenter.doShowFavourites()
+            favMenu.setTitle(R.string.menu_showAll)
+            favNavi.setTitle(R.string.menu_showAll)
+        }
+        else if (favMenu.title == getString(R.string.menu_showAll) && favNavi.title == getString(R.string.menu_showAll)) {
+            presenter.doLoadSites()
+            favMenu.setTitle(R.string.menu_showFavourite)
+            favNavi.setTitle(R.string.menu_showFavourite)
+        }
+    }
+
+    fun showSearchDialog(){
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+        builder.setTitle(R.string.menu_search)
+
+        val dialogLayout = inflater.inflate(R.layout.search_dialog, null)
+        val editText = dialogLayout.findViewById<EditText>(R.id.search_editText)
+        builder.setView(dialogLayout)
+
+        builder.setPositiveButton("OK") { dialogInterface, i ->
+            var searchedText = editText.text.toString()
+            toast(searchedText)
+            presenter.doSearchedSites(searchedText)
+
+            var item: MenuItem = menuList.findItem(R.id.item_searchCancel)
+            item.isVisible = true
+        }
+
+        builder.setNegativeButton("Cancel"){  dialogInterface, i ->
+            presenter.doLoadSites()
+
+            var searchCancel: MenuItem = menuList.findItem(R.id.item_searchCancel)
+            searchCancel.isVisible = false
+        }
+        builder.show()
     }
 
     //edit existing site

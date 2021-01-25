@@ -18,6 +18,10 @@
             android:id="@+id/subtitle2"
             android:title="Subtitle">
             <item
+                android:id="@+id/drawer_search"
+                android:icon="@android:drawable/ic_menu_search"
+                android:title="@string/menu_search" />
+            <item
                 android:id="@+id/drawer_favourite"
                 android:icon="@android:drawable/star_off"
                 android:title="@string/menu_showFavourite" />

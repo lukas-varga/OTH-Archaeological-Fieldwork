@@ -43,7 +43,7 @@ class LoginView : BaseView() {
                 toast(R.string.toast_missingAuthItems)
             }
             else{
-                presenter.doLogin(email,password,true)
+                presenter.doLogin(email,password)
             }
         }
     }

@@ -14,6 +14,10 @@
     <string name="menu_preciseLocation">Precise Location</string>
     <string name="menu_showFavourite">Show Favourites</string>
     <string name="menu_showAll">Show All</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_searchCancel">Cancel Search</string>
+
+    <string name="header_text">Email</string>
 
     <string name="toast_missingTitle">Please enter a title</string>
     <string name="toast_missingAuthItems">Please provide email + password</string>
@@ -51,6 +55,7 @@
     <string name="hint_siteDescription">Description</string>
     <string name="hint_email">user@mail.com</string>
     <string name="hint_notes">Personal notes of student</string>
+    <string name="hint_search">Enter text (dd/mm/yyyy for date)</string>
 
     <string name="label_splash">by Lukas Varga</string>
     <string name="label_lat">Lat:</string>
@@ -68,6 +73,4 @@
     <string name="label_statistics">Site Statistics</string>
     <string name="label_nrOfSites">No. of sites</string>
     <string name="label_nrOfVisited">No. visited</string>
-
-    <string name="header_text">Email</string>
 </resources>

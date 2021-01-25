@@ -19,8 +19,8 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var fireStore: SiteFireStore? = null
 
-    var emailAdmin = "admin@argeo.com"
-    var passwordAdmin = "adminArgeo"
+//    var emailAdmin = "admin@argeo.com"
+//    var passwordAdmin = "adminArgeo"
 
     init {
         if(app.sites is SiteFireStore){
@@ -28,20 +28,15 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun doLogin(email: String, password: String, navigateTo: Boolean){
+    fun doLogin(email: String, password: String){
         view?.showProgress()
         auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(view!!) { task ->
             if(task.isSuccessful){
                 if (fireStore != null) {
-
-                    //TODO maybe change something in firestore
-
                     fireStore!!.fetchSites {
                         view?.hideProgress()
                         fireStore!!.userPassword = password
-                        if(navigateTo){
-                            view?.navigateTo(VIEW.LIST)
-                        }
+                        view?.navigateTo(VIEW.LIST)
                     }
                 }
                 else{
@@ -63,7 +58,7 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
                 if (fireStore != null) {
                     fireStore!!.fetchSites {
                         view?.hideProgress()
-//                        doPopulateSites()
+//                        doPopulateSites(email,password)
                         view?.navigateTo(VIEW.LIST)
                     }
 
@@ -84,61 +79,49 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
         app.sites.clear()
     }
 
-    /**
-     *     login as admin and creating assigned sites
-     *     email: admin@argeo.com
-     *     password: adminArgeo
-     */
-    fun doPopulateSites(email: String, password: String){
-        doLogin(emailAdmin,passwordAdmin,false)
-        var defaultSites: List<SiteModel> = listOf()
-        var deepCopy : MutableList<SiteModel> = mutableListOf()
-
-        doAsync {
-            defaultSites = app.sites.findAll()
-            uiThread {
-                defaultSites.forEach() {
-                    var newSite = SiteModel()
-
-                    newSite.title = it.title
-                    newSite.title = it.title
-                    newSite.description = it.description
-                    newSite.images = it.images
-                    newSite.location = it.location
-                    newSite.date = it.date
-                    newSite.notes = it.notes
-                    newSite.visited = it.visited
-                    newSite.favourite = it.favourite
-                    newSite.rating = it.rating
-                    deepCopy.add(newSite)
-                }
-            }
-        }
-
-        doLogOut()
-        doLogin(email,password,false)
-
-        doAsync {
-            deepCopy.forEach(){
-                var newSite = SiteModel()
-
-                newSite.title = it.title
-                newSite.title = it.title
-                newSite.description = it.description
-                newSite.images = it.images
-                newSite.location = it.location
-                newSite.date = it.date
-                newSite.notes = it.notes
-                newSite.visited = it.visited
-                newSite.favourite = it.favourite
-                newSite.rating = it.rating
-
-                app.sites.create(newSite)
-
-            }
-            uiThread {
-                view?.navigateTo(VIEW.LIST)
-            }
-        }
-    }
+//    /**
+//     *     login as admin and creating assigned sites
+//     *     email: admin@argeo.com
+//     *     password: adminArgeo
+//     */
+//    fun doPopulateSites(email: String, password: String){
+//        doLogOut()
+//        doLogin(emailAdmin,passwordAdmin)
+//        var defaultSites: List<SiteModel> = listOf()
+//        var deepCopy : MutableList<SiteModel> = mutableListOf()
+//
+//        doAsync {
+//            defaultSites = app.sites.findAll()
+//            uiThread {
+//                defaultSites.forEach() {
+//                    var newSite = SiteModel()
+//
+//                    newSite.title = it.title
+//                    newSite.description = it.description
+//                    newSite.location = it.location
+//
+//                    deepCopy.add(newSite)
+//                }
+//            }
+//        }
+//
+//        doLogOut()
+//        doLogin(email,password,false)
+//
+//        doAsync {
+//            deepCopy.forEach(){
+//                var newSite = SiteModel()
+//
+//                newSite.title = it.title
+//                newSite.description = it.description
+//                newSite.location = it.location
+//
+//                app.sites.create(newSite)
+//            }
+//            uiThread {
+//                doLogOut()
+//                doLogin(email,password)
+//            }
+//        }
+//    }
 }

@@ -27,12 +27,14 @@ class NavigatorPresenter(view: BaseView) : BasePresenter(view){
         siteLoc = view.intent.extras?.getParcelable<Location>("navigator")!!
     }
 
-    fun doConfigureMap(map: GoogleMap) {
-        this.map = map
-        if(checkLocationPermissions(view!!)){
-            doSetCurrentLocation()
-        }
-
+    fun createSiteMarker(map: GoogleMap){
+        val finish = LatLng(siteLoc.lat, siteLoc.lng)
+        val options: MarkerOptions = MarkerOptions()
+            .title("Site")
+            .snippet("GPS: $finish")
+            .draggable(false)
+            .position(finish)
+        map.addMarker(options)
     }
 
     @SuppressLint("MissingPermission")
@@ -100,14 +102,11 @@ class NavigatorPresenter(view: BaseView) : BasePresenter(view){
         polyline.jointType = JointType.ROUND
     }
 
-    fun createSiteMarker(map: GoogleMap){
-        val finish = LatLng(siteLoc.lat, siteLoc.lng)
-        val options: MarkerOptions = MarkerOptions()
-                .title("Site")
-                .snippet("GPS: $finish")
-                .draggable(false)
-                .position(finish)
-        map.addMarker(options)
+    fun doConfigureMap(map: GoogleMap) {
+        this.map = map
+        if(checkLocationPermissions(view!!)){
+            doSetCurrentLocation()
+        }
     }
 
     fun doUpdateMarker(marker: Marker){

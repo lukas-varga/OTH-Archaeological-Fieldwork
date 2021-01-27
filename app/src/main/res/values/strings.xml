@@ -58,6 +58,7 @@
     <string name="hint_search">Enter text (dd/mm/yyyy for date)</string>
 
     <string name="label_splash">by Lukas Varga</string>
+    <string name="label_current_location">Current Location</string>
     <string name="label_lat">Lat:</string>
     <string name="label_lng">Lng:</string>
     <string name="label_lat_map">Lat:</string>

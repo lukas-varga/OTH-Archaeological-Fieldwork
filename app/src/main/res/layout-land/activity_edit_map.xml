@@ -33,7 +33,7 @@
             android:id="@+id/labelLatMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="56dp"
             android:text="@string/label_lat_map"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.25"
@@ -45,18 +45,17 @@
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
             app:layout_constraintStart_toEndOf="@+id/labelLatMap"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/labelLatMap" />
 
         <TextView
             android:id="@+id/labelLngMap"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="56dp"
             android:text="@string/label_lng_map"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintHorizontal_bias="0.62"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,14 +64,13 @@
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
             app:layout_constraintStart_toEndOf="@+id/labelLngMap"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/labelLngMap" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapViewEdit"
             android:layout_width="match_parent"
-            android:layout_height="264dp"
+            android:layout_height="290dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"

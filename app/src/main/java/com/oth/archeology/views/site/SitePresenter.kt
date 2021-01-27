@@ -1,6 +1,7 @@
 package com.oth.archeology.views.site
 
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -10,15 +11,15 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.oth.archeology.helpers.checkLocationPermissions
-import com.oth.archeology.helpers.createDefaultLocationRequest
-import com.oth.archeology.helpers.isPermissionGranted
-import com.oth.archeology.helpers.showImagePicker
+import com.oth.archeology.R
+import com.oth.archeology.helpers.*
 import com.oth.archeology.models.*
 import com.oth.archeology.views.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
+import java.io.IOException
 import java.util.*
 
 class SitePresenter(view: BaseView) : BasePresenter(view) {
@@ -26,9 +27,11 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     var site = SiteModel()
     var map: GoogleMap? = null
     var defaultLocation = Location(52.245696, -7.139102, 15f)
-    var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
+    var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
+        view
+    )
     val locationRequest = createDefaultLocationRequest()
-    val defaultDate = MyDate(1900,1,1)
+    val defaultDate = MyDate(1900, 1, 1)
     var edit = false
     var userLoc = false
     var selectedImage: IMAGE = IMAGE.FIRST
@@ -70,7 +73,11 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun doRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (isPermissionGranted(requestCode, grantResults)) {
             doSetCurrentLocation()
         } else {
@@ -78,7 +85,14 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun cacheSite(title: String, description: String, notes: String, visited: Boolean, favourite: Boolean, rating: Float){
+    fun cacheSite(
+        title: String,
+        description: String,
+        notes: String,
+        visited: Boolean,
+        favourite: Boolean,
+        rating: Float
+    ){
         site.title = title
         site.description = description
         site.notes = notes
@@ -101,16 +115,36 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
                 .title(site.title)
                 .position(LatLng(site.location.lat, site.location.lng))
         map?.addMarker(options)
-        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(site.location.lat, site.location.lng), site.location.zoom))
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    site.location.lat,
+                    site.location.lng
+                ), site.location.zoom
+            )
+        )
         view?.showLocation(site.location)
     }
 
     fun doSetLocation() {
         userLoc = true
-        view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(site.location.lat, site.location.lng, site.location.zoom))
+        view?.navigateTo(
+            VIEW.LOCATION, LOCATION_REQUEST, "location", Location(
+                site.location.lat,
+                site.location.lng,
+                site.location.zoom
+            )
+        )
     }
 
-    fun doAddOrSave(title: String, description: String, notes: String, visited: Boolean, favourite: Boolean, rating: Float) {
+    fun doAddOrSave(
+        title: String,
+        description: String,
+        notes: String,
+        visited: Boolean,
+        favourite: Boolean,
+        rating: Float
+    ) {
         site.title = title
         site.description = description
         site.notes = notes
@@ -144,14 +178,25 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doShowNavigator(){
-        view?.navigateTo(VIEW.NAVIGATOR, 0,"navigator", Location(site.location.lat, site.location.lng, site.location.zoom))
+        view?.navigateTo(
+            VIEW.NAVIGATOR, 0, "navigator", Location(
+                site.location.lat,
+                site.location.lng,
+                site.location.zoom
+            )
+        )
     }
 
-    fun doShowImageChooser(context: Context){
+    fun doShowImageChooser(context: Context, directPhoto: Boolean){
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Choose a picture to change")
+        builder.setTitle(R.string.dialog_image_photo)
 
-        var enums = arrayOf(IMAGE.FIRST.name, IMAGE.SECOND.name, IMAGE.THIRD.name, IMAGE.FOURTH.name)
+        var enums = arrayOf(
+            IMAGE.FIRST.name,
+            IMAGE.SECOND.name,
+            IMAGE.THIRD.name,
+            IMAGE.FOURTH.name
+        )
         selectedImage= IMAGE.FIRST
         val checkedItem = 0 // first
         builder.setSingleChoiceItems(enums, checkedItem) { dialog, which ->
@@ -165,13 +210,25 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
 
         builder.setPositiveButton("OK") { dialog, which ->
-            view?.toast("" + selectedImage)
-            doSelectImage()
+//            view?.toast("" + selectedImage)
+            if(directPhoto){
+                doOpenCamera()
+            }
+            else{
+                doSelectImage()
+            }
+
         }
         builder.setNegativeButton("Cancel", null)
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    fun doOpenCamera(){
+        view?.let {
+            dispatchTakePictureIntent(view!!, REQUEST_IMAGE_CAPTURE)
+        }
     }
 
     fun doSelectImage() {
@@ -195,23 +252,31 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         val c = Calendar.getInstance()
 
         if(site.date == defaultDate){
-            val thisYear = MyDate(2021,1,1)
-            c.set(thisYear.year,thisYear.month,thisYear.day)
+            val thisYear = MyDate(2021, 1, 1)
+            c.set(thisYear.year, thisYear.month, thisYear.day)
         }
         else{
-            c.set(site.date.year,
-                site.date.month-1,
-                site.date.day)
+            c.set(
+                site.date.year,
+                site.date.month - 1,
+                site.date.day
+            )
         }
 
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        val dpd = DatePickerDialog(context, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            site.date = MyDate(year,monthOfYear+1 ,dayOfMonth)
-            loadDate(site.date)
-        }, year, month, day)
+        val dpd = DatePickerDialog(
+            context,
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                site.date = MyDate(year, monthOfYear + 1, dayOfMonth)
+                loadDate(site.date)
+            },
+            year,
+            month,
+            day
+        )
 
         dpd.show()
     }
@@ -252,11 +317,16 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
             result.append("\n\n")
         }
 
-        var images = arrayOf(site.images.first, site.images.second, site.images.third, site.images.fourth)
+        var images = arrayOf(
+            site.images.first,
+            site.images.second,
+            site.images.third,
+            site.images.fourth
+        )
 
         for (i in images.indices){
             if(images[i] != ""){
-                result.append("Image_${i+1}: ${images[i]}")
+                result.append("Image_${i + 1}: ${images[i]}")
                 result.append("\n")
             }
         }
@@ -267,11 +337,12 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {
+                val path = data.data.toString()
                 when (selectedImage) {
-                    IMAGE.FIRST -> site.images.first = data.data.toString()
-                    IMAGE.SECOND -> site.images.second = data.data.toString()
-                    IMAGE.THIRD -> site.images.third = data.data.toString()
-                    IMAGE.FOURTH -> site.images.fourth = data.data.toString()
+                    IMAGE.FIRST -> site.images.first = path
+                    IMAGE.SECOND -> site.images.second = path
+                    IMAGE.THIRD -> site.images.third = path
+                    IMAGE.FOURTH -> site.images.fourth = path
                 }
                 view?.showSite(site)
             }
@@ -281,6 +352,23 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
                 site.location.lng = location.lng
                 site.location.zoom = location.zoom
                 locationUpdate(location)
+            }
+            REQUEST_IMAGE_CAPTURE -> {
+                if(resultCode == RESULT_OK){
+                    try {
+                        val imagePath = currentPhotoPath
+                        when (selectedImage) {
+                            IMAGE.FIRST -> site.images.first = imagePath
+                            IMAGE.SECOND -> site.images.second = imagePath
+                            IMAGE.THIRD -> site.images.third = imagePath
+                            IMAGE.FOURTH -> site.images.fourth = imagePath
+                        }
+                        view?.showSite(site)
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                        view?.toast(R.string.toast_cameraSavingFailed)
+                    }
+                }
             }
         }
     }

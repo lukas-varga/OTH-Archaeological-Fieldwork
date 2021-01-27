@@ -141,16 +141,21 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
     //upadte recyclerView while changing site
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        var fav: MenuItem = menuList.findItem(R.id.item_favourite)
-//        if(fav.title == getString(R.string.menu_showFavourite)){
-//            presenter.doLoadSites()
-//        }
-//        else if(fav.title == getString(R.string.menu_showAll)){
-//            presenter.doShowFavourites()
-//        }
-
-        recyclerView.adapter?.notifyDataSetChanged()
+        resetCategoryButtons()
+        presenter.doLoadSites()
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun resetCategoryButtons(){
+        var searchCancel: MenuItem = menuList.findItem(R.id.item_searchCancel)
+        searchCancel.isVisible = false
+
+        var menuNavigator = navigationView.menu
+        var favNavi: MenuItem = menuNavigator.findItem(R.id.drawer_favourite)
+        var favMenu: MenuItem = menuList.findItem(R.id.item_favourite)
+
+        favNavi.setTitle(R.string.menu_showFavourite)
+        favMenu.setTitle(R.string.menu_showFavourite)
     }
 
     override fun onBackPressed() {

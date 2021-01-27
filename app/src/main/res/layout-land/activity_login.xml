@@ -58,7 +58,7 @@
             android:layout_marginTop="116dp"
             android:ems="10"
             android:hint="@string/hint_email"
-            android:text="admin@argeo.com"
+            android:text="test@test.com"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,6 +116,7 @@
             android:id="@+id/imageView3"
             android:layout_width="96dp"
             android:layout_height="96dp"
+            android:contentDescription="@string/argeo_logo_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/labelPassword"
             app:layout_constraintStart_toStartOf="parent"

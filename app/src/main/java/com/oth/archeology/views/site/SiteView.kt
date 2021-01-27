@@ -41,7 +41,12 @@ class  SiteView : BaseView(), AnkoLogger {
 
         chooseImage.setOnClickListener(){
             prepareCache()
-            presenter.doShowImageChooser(this)
+            presenter.doShowImageChooser(this,false)
+        }
+
+        makePhoto.setOnClickListener(){
+            prepareCache()
+            presenter.doShowImageChooser(this,true)
         }
 
         var imageViews = arrayOf(siteImage1, siteImage2, siteImage3, siteImage4)

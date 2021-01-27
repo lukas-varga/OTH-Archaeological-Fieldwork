@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,7 +19,6 @@ import com.oth.archeology.views.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
-import java.net.URI
 import java.util.*
 
 class SitePresenter(view: BaseView) : BasePresenter(view) {
@@ -146,6 +143,10 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
+    fun doShowNavigator(){
+        view?.navigateTo(VIEW.NAVIGATOR, 0,"navigator", Location(site.location.lat, site.location.lng, site.location.zoom))
+    }
+
     fun doShowImageChooser(context: Context){
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Choose a picture to change")
@@ -187,7 +188,7 @@ class SitePresenter(view: BaseView) : BasePresenter(view) {
             IMAGE.FOURTH -> site.images.fourth
         }
         var data = ImagePath(text)
-        view?.navigateTo(VIEW.DISPLAY, 8, "display_image", data)
+        view?.navigateTo(VIEW.DISPLAY, 0, "display_image", data)
     }
 
     fun doShowDatePicker(context: Context){

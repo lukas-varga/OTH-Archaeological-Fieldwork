@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.Location
@@ -11,6 +13,7 @@ import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.image.DisplayImageView
 import com.oth.archeology.views.location.EditLocationView
 import com.oth.archeology.views.login.LoginView
+import com.oth.archeology.views.navigator.NavigatorView
 import com.oth.archeology.views.sitemaps.SiteMapView
 import com.oth.archeology.views.settings.SettingsView
 import com.oth.archeology.views.site.SiteView
@@ -21,8 +24,9 @@ import org.jetbrains.anko.AnkoLogger
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
 
+
 enum class VIEW{
-    LOCATION, SITE, MAPS, LIST, LOGIN, SPLASH, SETTINGS, DISPLAY
+    LOCATION, SITE, MAPS, LIST, LOGIN, SPLASH, SETTINGS, DISPLAY, NAVIGATOR
 }
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
@@ -40,6 +44,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.MAPS -> intent = Intent(this, SiteMapView::class.java)
             VIEW.SETTINGS -> intent = Intent(this, SettingsView::class.java)
             VIEW.DISPLAY  -> intent = Intent(this, DisplayImageView::class.java)
+            VIEW.NAVIGATOR -> intent = Intent(this, NavigatorView::class.java)
         }
         if(key != ""){
             intent.putExtra(key,value)

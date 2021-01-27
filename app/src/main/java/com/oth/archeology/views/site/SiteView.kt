@@ -1,7 +1,6 @@
 package com.oth.archeology.views.site
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -121,6 +120,10 @@ class  SiteView : BaseView(), AnkoLogger {
             var item: MenuItem = menu.findItem(R.id.item_delete)
             item.isVisible = true
         }
+        if(presenter.edit){
+            var item: MenuItem = menu.findItem(R.id.item_navigator)
+            item.isVisible = true
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -147,6 +150,7 @@ class  SiteView : BaseView(), AnkoLogger {
                 }
             }
             R.id.item_share -> shareSite()
+            R.id.item_navigator -> presenter.doShowNavigator()
         }
         return super.onOptionsItemSelected(item)
     }

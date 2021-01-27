@@ -14,9 +14,10 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/item_preciseLocation"
+        android:id="@+id/item_navigator"
         android:title="@string/menu_preciseLocation"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:visible="false"/>
 
     <item
         android:id="@+id/item_delete"

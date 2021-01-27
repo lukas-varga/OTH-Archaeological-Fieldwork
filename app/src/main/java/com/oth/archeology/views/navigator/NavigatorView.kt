@@ -1,48 +1,50 @@
-package com.oth.archeology.views.location
+package com.oth.archeology.views.navigator
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.oth.archeology.R
 import com.oth.archeology.models.Location
 import com.oth.archeology.views.BaseView
-import kotlinx.android.synthetic.main.activity_edit_map.*
+import kotlinx.android.synthetic.main.navigator.*
 
+class NavigatorView : BaseView(), GoogleMap.OnMarkerClickListener , GoogleMap.OnMapClickListener{
 
-class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener  {
-
-    lateinit var presenter: EditLocationPresenter
+    lateinit var presenter: NavigatorPresenter
     lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_map)
+        setContentView(R.layout.navigator)
         super.init(toolbar, true)
 
-        presenter = initPresenter(EditLocationPresenter(this)) as EditLocationPresenter
+        presenter = initPresenter(NavigatorPresenter(this)) as NavigatorPresenter
 
-        mapViewEdit.onCreate(savedInstanceState)
-        mapViewEdit.getMapAsync {
+        mapViewNavigator.onCreate(savedInstanceState)
+        mapViewNavigator.getMapAsync {
             map = it
-            map.setOnMarkerDragListener(this)
             map.setOnMarkerClickListener(this)
+            map.setOnMapClickListener(this)
+            map.uiSettings.isZoomControlsEnabled = true
+
             presenter.doConfigureMap(map)
         }
+
+        presenter.doResartLocationUpdates()
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_edit_map, menu)
+        menuInflater.inflate(R.menu.menu_navigator, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item?.itemId){
-            R.id.item_map -> {
-                presenter.doSaveLocation()
-            }
+        when(item.itemId){
+            R.id.item_refreshMap -> presenter.doSystemZoom()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -57,56 +59,38 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
         valueLngMap.setText(String.format("%.6f", location.lng))
     }
 
-    private fun countLocation(marker: Marker) {
-        showLocation(Location(marker.position.latitude, marker.position.longitude))
-    }
-
-    override fun onMarkerDragStart(marker: Marker) {
-        countLocation(marker)
-    }
-
-    override fun onMarkerDrag(marker: Marker) {
-        countLocation(marker)
-    }
-
-    override fun onMarkerDragEnd(marker: Marker) {
-        countLocation(marker)
-        presenter.doUpdateLocation(
-            Location(
-                marker.position.latitude,
-                marker.position.longitude,
-                map.cameraPosition.zoom
-            )
-        )
-    }
-
     override fun onMarkerClick(marker: Marker): Boolean {
         presenter.doUpdateMarker(marker)
         return false
     }
 
+    override fun onMapClick(p0: LatLng?) {
+        presenter.doUserZoom()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        mapViewEdit.onDestroy()
+        mapViewNavigator.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapViewEdit.onLowMemory()
+        mapViewNavigator.onLowMemory()
     }
 
     override fun onPause() {
         super.onPause()
-        mapViewEdit.onPause()
+        mapViewNavigator.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        mapViewEdit.onResume()
+        mapViewNavigator.onResume()
+        presenter.doResartLocationUpdates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        mapViewEdit.onSaveInstanceState(outState)
+        mapViewNavigator.onSaveInstanceState(outState)
     }
 }

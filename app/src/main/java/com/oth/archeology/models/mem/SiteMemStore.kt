@@ -1,5 +1,6 @@
 package com.oth.archeology.models.mem
 
+import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.SiteStore
 import org.jetbrains.anko.AnkoLogger
@@ -56,9 +57,5 @@ class SiteMemStore : SiteStore, AnkoLogger {
 
     override fun clear() {
         sites.clear()
-    }
-
-    override fun getPassword(): String {
-        return ""
     }
 }

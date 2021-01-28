@@ -1,5 +1,7 @@
 package com.oth.archeology.models
 
+import android.content.Context
+
 interface SiteStore {
     fun findAll(): List<SiteModel>
     fun findById(id:Long) : SiteModel?
@@ -7,5 +9,4 @@ interface SiteStore {
     fun update(site: SiteModel)
     fun delete(site: SiteModel)
     fun clear()
-    fun getPassword(): String
 }

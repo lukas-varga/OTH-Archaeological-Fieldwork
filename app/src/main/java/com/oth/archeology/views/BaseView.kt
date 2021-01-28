@@ -1,5 +1,6 @@
 package com.oth.archeology.views
 
+import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +8,13 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.Location
 import com.oth.archeology.models.SiteModel
+import com.oth.archeology.models.firebase.SiteFireStore
 import com.oth.archeology.views.image.DisplayImageView
 import com.oth.archeology.views.location.EditLocationView
 import com.oth.archeology.views.login.LoginView
@@ -20,6 +25,7 @@ import com.oth.archeology.views.site.SiteView
 import com.oth.archeology.views.sitelist.SiteListView
 import com.oth.archeology.views.splash.SplashView
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.toast
 
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
@@ -57,7 +63,6 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         basePresenter = presenter
         return presenter
     }
-
 
     fun init(toolbar: Toolbar, upEnabled: Boolean) {
         toolbar.title = title
@@ -97,4 +102,6 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun displayInfo() {}
     open fun showProgress() {}
     open fun hideProgress() {}
+    open fun onlineStatus() {}
+    open fun offlineStatus() {}
 }

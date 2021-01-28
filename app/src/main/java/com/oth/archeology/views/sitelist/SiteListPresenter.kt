@@ -1,12 +1,23 @@
 package com.oth.archeology.views.sitelist
 
+import android.content.Context
+import android.view.Menu
+import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.R
+import com.google.firebase.database.ValueEventListener
 import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.SiteModel
+import com.oth.archeology.models.firebase.SiteFireStore
 import com.oth.archeology.views.BasePresenter
 import com.oth.archeology.views.BaseView
 import com.oth.archeology.views.VIEW
+import kotlinx.android.synthetic.main.activity_site_list.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 class SiteListPresenter  (view: BaseView) : BasePresenter(view){
@@ -83,5 +94,27 @@ class SiteListPresenter  (view: BaseView) : BasePresenter(view){
 
     fun doSettings(){
         view?.navigateTo(VIEW.SETTINGS)
+    }
+
+    fun changeStatus(fireStore: SiteFireStore){
+        if(fireStore.isDbInitialized()){
+            val connectedRef = fireStore.db.database.getReference(".info/connected")
+            connectedRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val connected = snapshot.getValue(Boolean::class.java) ?: false
+                    if (connected) {
+                        view?.onlineStatus()
+                        print("online")
+                    } else {
+                        view?.offlineStatus()
+                        print("offline")
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    print("Listener was cancelled")
+                }
+            })
+        }
     }
 }

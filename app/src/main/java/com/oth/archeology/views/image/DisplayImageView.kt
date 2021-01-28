@@ -3,6 +3,7 @@ package com.oth.archeology.views.image
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.oth.archeology.R
+import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_display_image.*
 import org.jetbrains.anko.info
@@ -20,8 +21,12 @@ class DisplayImageView : BaseView() {
     }
 
     override fun showImage(path: String){
-//        displayImage.setImageBitmap(readImageFromPath(this,path))
-        Glide.with(this).load(path).into(displayImage)
+        try {
+            Glide.with(this).load(path).into(displayImage)
+        } catch (e: Exception) {
+            print("Couldn't load image.")
+//            displayImage.setImageBitmap(readImageFromPath(this,path))
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

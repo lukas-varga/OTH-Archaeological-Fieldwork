@@ -51,9 +51,14 @@ class SiteAdapter constructor(
             itemView.favouriteCheck.isChecked = site.favourite
             itemView.ratingBar.rating = site.rating
 
-//            TODO
-//             itemView.bindImage.setImageBitmap(readImageFromPath(itemView.context,site.images.first))
-            Glide.with(itemView.context).load(site.images.first).into(itemView.bindImage)
+
+            try {
+                Glide.with(itemView.context).load(site.images.first).into(itemView.bindImage)
+            } catch (e: Exception) {
+                print("Couldn't load image.")
+//                itemView.bindImage.setImageBitmap(readImageFromPath(itemView.context,site.images.first))
+            }
+
 
             itemView.setOnClickListener{listener.onSiteClick(site)}
         }

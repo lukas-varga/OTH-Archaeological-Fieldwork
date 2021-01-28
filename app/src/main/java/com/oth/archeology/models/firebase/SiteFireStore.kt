@@ -1,7 +1,10 @@
 package com.oth.archeology.models.firebase
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
+import android.view.MenuItem
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -9,10 +12,14 @@ import com.google.firebase.storage.StorageReference
 import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.SiteStore
+import com.oth.archeology.views.BaseView
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
+import org.jetbrains.anko.toast
 import java.io.ByteArrayOutputStream
 import java.io.File
 import kotlin.collections.ArrayList
+
 
 class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {
 
@@ -21,6 +28,8 @@ class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {
     lateinit var userPassword: String
     lateinit var db: DatabaseReference
     lateinit var st: StorageReference
+
+
 
     override fun findAll(): List<SiteModel> {
         return sites
@@ -133,17 +142,47 @@ class SiteFireStore(val context: Context) : SiteStore, AnkoLogger {
                 sitesReady()
             }
         }
+
+        offlineStrategy()
+
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
         st = FirebaseStorage.getInstance().reference
+
         sites.clear()
         db.child("users")
                 .child(userId)
                 .child("sites")
                 .addListenerForSingleValueEvent(valueEventListener)
+//                .addValueEventListener(valueEventListener)
+
     }
 
-    override fun getPassword(): String{
+    fun offlineStrategy(){
+        if(!isDbInitialized()) {
+            var dbInstance = FirebaseDatabase.getInstance()
+            dbInstance.setPersistenceEnabled(true)
+            db = dbInstance.reference
+            db.keepSynced(true)
+        }
+    }
+
+    fun getEmail():String{
+        var auth: FirebaseAuth = FirebaseAuth.getInstance()
+        var user = auth.currentUser
+        if(user != null){
+            return user.email.toString()
+        }
+        else{
+            return ""
+        }
+    }
+
+    fun getPassword(): String{
         return userPassword
+    }
+
+    fun isDbInitialized(): Boolean{
+        return this::db.isInitialized
     }
 }

@@ -6,12 +6,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.oth.archeology.R
 import com.oth.archeology.models.SiteModel
+import com.oth.archeology.models.firebase.SiteFireStore
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site_list.*
 import org.jetbrains.anko.toast
@@ -25,20 +28,18 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_site_list)
         super.init(toolbar, false)
+        presenter = initPresenter(SiteListPresenter(this)) as SiteListPresenter
 
         toolbar.setNavigationOnClickListener(){
             drawerLayout.openDrawer(GravityCompat.START)
         }
-
         navigationView.setNavigationItemSelectedListener(this)
-
-
-        presenter = initPresenter(SiteListPresenter(this)) as SiteListPresenter
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-
         presenter.doLoadSites()
+
+
     }
 
     override fun showSites(sites: List<SiteModel>) {
@@ -48,8 +49,53 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
         recyclerView.adapter = SiteAdapter(sites, this)
         recyclerView.adapter?.notifyDataSetChanged()
+
+        handleStatus()
     }
 
+    fun handleStatus(){
+        if(presenter.app.sites is SiteFireStore){
+            var fireStore = presenter.app.sites as SiteFireStore
+            presenter.changeStatus(fireStore)
+        }
+    }
+
+    override fun onlineStatus() {
+        super.onlineStatus()
+        invalidateDrawer()
+
+        var menuNavigator = navigationView.menu
+        var item: MenuItem = menuNavigator.findItem(R.id.drawer_status)
+
+        if(item.title == getString(R.string.menu_offline)){
+                toast("Online")
+        }
+
+        item.setTitle(R.string.menu_online)
+        item.setIcon(ContextCompat.getDrawable(this, android.R.drawable.presence_online))
+
+    }
+
+    override fun offlineStatus() {
+        super.offlineStatus()
+        invalidateDrawer()
+
+        var menuNavigator = navigationView.menu
+        var item: MenuItem = menuNavigator.findItem(R.id.drawer_status)
+
+        if(item.title == getString(R.string.menu_online)){
+            toast("Offline")
+        }
+
+        item.setTitle(R.string.menu_offline)
+        item.setIcon(ContextCompat.getDrawable(this, android.R.drawable.ic_menu_recent_history))
+    }
+
+    fun invalidateDrawer(){
+        var layout: DrawerLayout = findViewById(R.id.drawerLayout)
+        layout.invalidate()
+        layout.requestLayout()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if(menu != null){

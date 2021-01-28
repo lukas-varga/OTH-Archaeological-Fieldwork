@@ -16,14 +16,15 @@
     <string name="menu_showAll">Show All</string>
     <string name="menu_search">Search</string>
     <string name="menu_searchCancel">Cancel Search</string>
-    <string name="header_text">Email</string>
+    <string name="menu_online">Online</string>
+    <string name="menu_offline">Offline</string>
 
     <string name="toast_missingTitle">Please enter a title</string>
     <string name="toast_missingAuthItems">Please provide email + password</string>
     <string name="toast_signUpFailed">Sign Up Failed</string>
     <string name="toast_logInFailed">"Log In Failed"</string>
     <string name="toast_cameraFailed">Camera Access Denied</string>
-    <string name="toast_cameraSavingFailed">Picture Not Save</string>
+    <string name="toast_cameraSavingFailed">Picture Not Saved</string>
 
     <string name="hint_siteTitle">Site Title</string>
     <string name="hint_siteDescription">Description</string>
@@ -31,7 +32,8 @@
     <string name="hint_notes">Personal notes of student</string>
     <string name="hint_search">Enter text (dd/mm/yyyy for date)</string>
     <string name="picture_chooser">Select site image</string>
-    <string name="dialog_image_photo">Choose a picture to change"</string>
+    <string name="dialog_image_photo">Choose a picture to change</string>
+    <string name="settings_notAuth">"FirebaseAuth Disabled"</string>
 
     <string name="title_splash">Argeo</string>
     <string name="title_activity_map">Map</string>

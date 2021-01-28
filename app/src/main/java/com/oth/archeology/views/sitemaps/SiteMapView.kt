@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.oth.archeology.R
+import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_edit_map.toolbar
@@ -33,8 +34,14 @@ class SiteMapView : BaseView(), GoogleMap.OnMarkerClickListener {
     override fun showSite(site: SiteModel){
         currentTitle.text = site.title
         currentDescription.text = site.description
-//        currentImage.setImageBitmap(readImageFromPath(this, site.image))
-        Glide.with(this).load(site.images.first).into(currentImage);
+
+        try {
+            Glide.with(this).load(site.images.first).into(currentImage);
+        } catch (e: Exception) {
+            print("Couldn't load image.")
+//            currentImage.setImageBitmap(readImageFromPath(this, site.images.first))
+        }
+
     }
 
     override fun showSites(sites: List<SiteModel>) {

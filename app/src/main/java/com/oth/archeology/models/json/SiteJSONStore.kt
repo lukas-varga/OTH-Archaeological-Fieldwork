@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.oth.archeology.R
 import com.oth.archeology.helpers.exists
 import com.oth.archeology.helpers.read
 import com.oth.archeology.helpers.write
@@ -82,9 +83,5 @@ class SiteJSONStore : SiteStore, AnkoLogger {
 
     override fun clear() {
         sites.clear()
-    }
-
-    override fun getPassword(): String {
-        return ""
     }
 }

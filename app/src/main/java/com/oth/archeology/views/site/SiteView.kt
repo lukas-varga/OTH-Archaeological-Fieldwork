@@ -7,6 +7,7 @@ import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.oth.archeology.R
+import com.oth.archeology.helpers.readImageFromPath
 import com.oth.archeology.models.IMAGE
 import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.Location
@@ -96,9 +97,13 @@ class  SiteView : BaseView(), AnkoLogger {
         )
 
         for (i in images.indices) {
-//        TODO offline strategy
-//            imageViews[i].setImageBitmap(readImageFromPath(this,images[i]))
-            Glide.with(this).load(images[i]).into(imageViews[i])
+            try {
+                Glide.with(this).load(images[i]).into(imageViews[i])
+            } catch (e: Exception) {
+                print("Couldn't load image.")
+//                imageViews[i].setImageBitmap(readImageFromPath(this,images[i]))
+            }
+
         }
 
         this.showLocation(site.location)

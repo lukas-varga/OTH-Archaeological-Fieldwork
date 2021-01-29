@@ -19,9 +19,6 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var fireStore: SiteFireStore? = null
 
-//    var emailAdmin = "admin@argeo.com"
-//    var passwordAdmin = "adminArgeo"
-
     init {
         if(app.sites is SiteFireStore){
             fireStore = app.sites as SiteFireStore
@@ -82,8 +79,6 @@ class LoginPresenter(view: BaseView) : BasePresenter(view) {
 
 //    /**
 //     *     login as admin and creating assigned sites
-//     *     email: admin@argeo.com
-//     *     password: adminArgeo
 //     */
 //    fun doPopulateSites(email: String, password: String){
 //        doLogOut()

@@ -39,7 +39,7 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
         recyclerView.layoutManager = layoutManager
         presenter.doLoadSites()
 
-
+        handleStatus()
     }
 
     override fun showSites(sites: List<SiteModel>) {
@@ -49,8 +49,6 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
         recyclerView.adapter = SiteAdapter(sites, this)
         recyclerView.adapter?.notifyDataSetChanged()
-
-        handleStatus()
     }
 
     fun handleStatus(){

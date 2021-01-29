@@ -3,12 +3,10 @@ package com.oth.archeology.views.sitelist
 import android.content.Context
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.R
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.oth.archeology.models.MyDate
 import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.firebase.SiteFireStore
@@ -96,9 +94,10 @@ class SiteListPresenter  (view: BaseView) : BasePresenter(view){
         view?.navigateTo(VIEW.SETTINGS)
     }
 
+
     fun changeStatus(fireStore: SiteFireStore){
         if(fireStore.isDbInitialized()){
-            val connectedRef = fireStore.db.database.getReference(".info/connected")
+            var connectedRef = fireStore.db.database.getReference(".info/connected")
             connectedRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val connected = snapshot.getValue(Boolean::class.java) ?: false

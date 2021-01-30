@@ -76,6 +76,7 @@
             android:clickable="false"
             android:ems="10"
             android:enabled="false"
+            android:hint="@string/hint_email"
             android:inputType="none"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"

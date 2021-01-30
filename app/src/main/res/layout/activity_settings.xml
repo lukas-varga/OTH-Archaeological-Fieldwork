@@ -36,7 +36,7 @@
             android:layout_marginEnd="24dp"
             android:text="@string/label_email"
             app:layout_constraintEnd_toStartOf="@+id/settingsEmail"
-            app:layout_constraintTop_toTopOf="@+id/settingsEmail" />
+            app:layout_constraintTop_toTopOf="@+id/settingsEmail"/>
 
         <TextView
             android:id="@+id/settingLabPassword"
@@ -76,6 +76,7 @@
             android:clickable="false"
             android:ems="10"
             android:enabled="false"
+            android:hint="@string/hint_email"
             android:inputType="none"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"

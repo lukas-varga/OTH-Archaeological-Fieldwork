@@ -35,6 +35,8 @@ class SettingsView : BaseView() {
                 showHidePassword.setText(R.string.button_showPassword)
             }
         }
+
+        presenter.doRefreshInfo()
     }
 
     override  fun displayInfo(){

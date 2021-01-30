@@ -8,19 +8,25 @@ import com.oth.archeology.views.BaseView
 
 class SettingsPresenter(view: BaseView) : BasePresenter(view) {
 
-    var email: String
-    var password: String
+    lateinit var fireStore: SiteFireStore
+    lateinit var email: String
+    lateinit var password: String
     var allSites: Int = 0
     var visited: Int = 0
 
     init {
         if(app.sites is SiteFireStore){
-            var fireStore = app.sites as SiteFireStore
+            fireStore = app.sites as SiteFireStore
+        }
+    }
+
+    fun doRefreshInfo(){
+        if(app.sites is SiteFireStore){
             email = fireStore.getEmail()
             password = fireStore.getPassword()
         } else{
-            email = view.resources.getString(R.string.settings_notAuth)
-            password = view.resources.getString(R.string.settings_notAuth)
+            email = view!!.resources.getString(R.string.settings_notAuth)
+            password = view!!.resources.getString(R.string.settings_notAuth)
         }
 
         var siteArr = app.sites.findAll()
@@ -31,9 +37,7 @@ class SettingsPresenter(view: BaseView) : BasePresenter(view) {
             if(site.visited) counter++
         }
         visited = counter
-    }
 
-    fun doRefreshInfo(){
         view?.displayInfo()
     }
 }

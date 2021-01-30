@@ -17,6 +17,8 @@ import com.oth.archeology.models.SiteModel
 import com.oth.archeology.models.firebase.SiteFireStore
 import com.oth.archeology.views.BaseView
 import kotlinx.android.synthetic.main.activity_site_list.*
+import kotlinx.android.synthetic.main.activity_site_list.toolbar
+import kotlinx.android.synthetic.main.activity_site_maps.*
 import org.jetbrains.anko.toast
 
 
@@ -24,6 +26,7 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
     lateinit var presenter: SiteListPresenter
     lateinit var menuList: Menu
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_site_list)
@@ -51,54 +54,17 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
         recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    fun handleStatus(){
-        if(presenter.app.sites is SiteFireStore){
-            var fireStore = presenter.app.sites as SiteFireStore
-            presenter.changeStatus(fireStore)
-        }
-    }
 
-    override fun onlineStatus() {
-        super.onlineStatus()
-        invalidateDrawer()
-
-        var menuNavigator = navigationView.menu
-        var item: MenuItem = menuNavigator.findItem(R.id.drawer_status)
-
-        if(item.title == getString(R.string.menu_offline)){
-                toast("Online")
-        }
-
-        item.setTitle(R.string.menu_online)
-        item.setIcon(ContextCompat.getDrawable(this, android.R.drawable.presence_online))
-
-    }
-
-    override fun offlineStatus() {
-        super.offlineStatus()
-        invalidateDrawer()
-
-        var menuNavigator = navigationView.menu
-        var item: MenuItem = menuNavigator.findItem(R.id.drawer_status)
-
-        if(item.title == getString(R.string.menu_online)){
-            toast("Offline")
-        }
-
-        item.setTitle(R.string.menu_offline)
-        item.setIcon(ContextCompat.getDrawable(this, android.R.drawable.ic_menu_recent_history))
-    }
-
-    fun invalidateDrawer(){
-        var layout: DrawerLayout = findViewById(R.id.drawerLayout)
-        layout.invalidate()
-        layout.requestLayout()
+    //edit existing site
+    override fun onSiteClick(site: SiteModel) {
+        presenter.doEditSite(site)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if(menu != null){
             this.menuList = menu
         }
+
         menuInflater.inflate(R.menu.menu_site_list, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -178,19 +144,49 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
         builder.show()
     }
 
-    //edit existing site
-    override fun onSiteClick(site: SiteModel) {
-        presenter.doEditSite(site)
+    fun handleStatus(){
+        if(presenter.app.sites is SiteFireStore){
+            var fireStore = presenter.app.sites as SiteFireStore
+            presenter.changeStatus(fireStore)
+        }
+    }
+
+    override fun onlineStatus() {
+        super.onlineStatus()
+
+        var menuNavigator = navigationView.menu
+        var item: MenuItem = menuNavigator.findItem(R.id.drawer_status)
+
+        if(item.title == getString(R.string.menu_offline)){
+            toast("Online")
+        }
+
+        item.setTitle(R.string.menu_online)
+        item.setIcon(ContextCompat.getDrawable(this, android.R.drawable.presence_online))
+
+    }
+
+    override fun offlineStatus() {
+        super.offlineStatus()
+
+        var menuNavigator = navigationView.menu
+        var item: MenuItem = menuNavigator.findItem(R.id.drawer_status)
+
+        if(item.title == getString(R.string.menu_online)){
+            toast("Offline")
+        }
+
+        item.setTitle(R.string.menu_offline)
+        item.setIcon(ContextCompat.getDrawable(this, android.R.drawable.ic_menu_recent_history))
     }
 
     //upadte recyclerView while changing site
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        resetCategoryButtons()
         presenter.doLoadSites()
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    fun resetCategoryButtons(){
+    fun resetMenus(){
         var searchCancel: MenuItem = menuList.findItem(R.id.item_searchCancel)
         searchCancel.isVisible = false
 
@@ -200,6 +196,24 @@ class   SiteListView  : BaseView(), SiteListener, NavigationView.OnNavigationIte
 
         favNavi.setTitle(R.string.menu_showFavourite)
         favMenu.setTitle(R.string.menu_showFavourite)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        resetMenus()
+        presenter.doLoadSites()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        resetMenus()
+        presenter.doLoadSites()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        resetMenus()
+        presenter.doLoadSites()
     }
 
     override fun onBackPressed() {
